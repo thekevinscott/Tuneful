@@ -1,0 +1,12 @@
+<h1>Editing station</h1>
+
+<% form_for(@station) do |f| %>
+  <%= f.error_messages %>
+
+  <p>
+    <%= f.submit 'Update' %>
+  </p>
+<% end %>
+
+<%= link_to 'Show', @station %> |
+<%= link_to 'Back', stations_path %>
