@@ -1,0 +1,342 @@
+body, html {
+	background: #ddd;
+	margin: 0;
+	padding: 0;
+	font-family: "Lucida Grande","Tahoma","Lucida Sans Unicode",Tahoma,Verdana;
+	color: #333;
+}
+html { font-size: 62.5%;}
+body { font-size: 1.6em; }
+.clear, .c { clear: both; }
+a { text-decoration: none; outline: none; color: #333;}
+a:hover { text-decoration: underline; color: #069;}
+img { border: none; }
+
+h1, h2, h3, h4, p { padding: 0; margin: 0; }
+h1, h2, h3, h4 { color: #2e4143;}
+h1 { 
+	font-size: 250%; 
+	border-bottom: 4px solid #2e4143;
+	margin-bottom: 10px; 
+}
+
+hr { color: #CCC; background: #CCC; height: 1px; border: none; line-height: 1px; }
+
+table { border-collapse: collapse ;}
+
+textarea {
+	font-size: 100%;
+	font-family: "Lucida Grande","Tahoma","Lucida Sans Unicode",Tahoma,Verdana;	
+}
+.right { float: right; } .left { float: left; }
+
+/*******
+*
+*   General Content Layout
+*
+********/
+
+#tuneful { 
+	margin: 20px auto;
+	padding: 25px 45px;
+	width: 1024px;
+	position: relative;
+}
+
+.button {
+	padding: 5px 10px;
+	border: 1px solid #bbb;
+	background: #ddd;
+	text-decoration: none;
+	margin: 0 5px 0 0;
+}
+.button:hover {
+	text-decoration: none;
+	background: #aaa;
+	color: black;
+	border: 1px solid #777;
+}
+
+#sidebar {
+	float: right;
+	background: #ddd;
+	padding: 20px;
+	margin-left: 60px;
+}
+
+#sidebar h2 {
+	padding-bottom: 1px;
+	border-bottom: 1px solid #aaa;
+}
+
+.help { clear: both; color: #999; float: right;}
+
+.loading { text-align: center ; padding-top: 50px; }
+
+/*******
+*
+*   Site-wide layout (shared across pages)
+*
+********/
+
+#banner {
+	height: 35px;
+	background: #999;
+}
+
+#header {
+	margin-bottom: 40px;
+}
+
+.logo {
+	width: 200px;
+	height: 200px;
+	background: #ccc;
+	float: left;
+}
+
+.info {
+	text-align: right;
+	margin-left: 220px;
+}
+
+.actions { 
+	float: left;
+	margin-top: 5px;
+}
+
+#feed {
+	margin-right: 333px;
+}
+#feed-actions { float: right; }
+.feed-item { 
+	border-bottom: 1px solid #ddd;
+	padding-bottom: 5px;
+}
+.feed-date { font-size: 70%; }
+
+.comment-form {
+	margin: 20px 0 30px 0;
+	display: none;
+}
+.comment-form textarea {
+	padding: 20px;
+	width: 760px;
+	font-size: 120%;
+	height: 120px;
+}
+.comment-form input.submit {
+	float: right;
+	margin-top: 10px;
+}
+
+
+/*******
+*
+*   General Content Layout
+*
+********/
+
+#stations {
+	padding-top: 30px;
+}
+
+#stations .card {
+	float: left;
+	background: white;
+	margin-right: 30px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	overflow: hidden;
+	padding-top: 20px;
+	padding: 10px 10px 10px 10px;
+	position: relative;
+}
+#stations .last { margin-right: 0; } 
+
+#stations .card h3, #stations .card .strip {
+	position: absolute;
+	width: 100%;
+	margin-top: 10px;
+	padding: 0 15px;
+}
+#stations .card h3 {
+	color: black;
+}
+#stations .card .strip {
+	background: white;
+	opacity: .4;
+	height: 25px;
+}
+
+#stations .card-large {
+	width: 300px;
+	height: 400px;
+}
+#stations .card-large .image { 
+	width: 300px;
+	overflow: hidden;
+}
+
+#stations .actions, #stations .subscribers {
+	position: absolute;
+	bottom: 6px;
+}
+#stations .actions {
+	left: 12px;
+}
+#stations .subscribers {
+	right: 12px; 
+}
+
+#stations .tracks {
+	position: absolute;
+	top: 40px;
+	right: 0;
+	padding: 8px 15px 8px 8px;
+	background: url('../images/white_04.png');
+	
+	-moz-border-radius: 8px;
+	-webkit-border-radius: 8px;
+}
+#stations .track {
+	list-style: none;
+	padding: 5px;
+	text-align: right;
+}
+#stations .track a {
+	padding: 5px;	
+}
+#stations .track a:hover {
+	background: white;
+	text-decoration: none;
+	-moz-border-radius: 4px;
+	-webkit-border-radius: 4px;
+}
+
+/*******
+*
+*   Radio
+*
+********/
+
+#radio {
+	position: fixed;
+	width: 100%;
+	height: 120px;
+	background: #ddd;
+	bottom: 0;
+}
+#radio-inner { padding: 20px 50px; }
+
+#radio-actions {
+	float: right;
+}
+
+#radio {
+	background: #fff;
+}
+
+#radio-header {
+	background: #aaa;
+	height: 25px;
+	-moz-border-radius-topleft: 15px;
+	-webkit-border-radius-topleft: 15px;
+	border-radius-topleft: 15px;
+	-moz-border-radius-topright: 15px;
+	-webkit-border-radius-topright: 15px;
+	border-radius-topright: 15px;
+	padding: 5px 20px 0 20px;
+}
+
+#radio-header .logo {
+	width: 20px;
+	height: 20px;
+	float: right;
+	background: #333;
+}
+
+#radio h1 {
+	border: 0; 
+}
+
+#radio-contents {
+	padding: 20px;
+}
+
+#track {
+
+}
+
+#track-logo {
+	width: 126px;
+	height: 126px;
+	margin: 2px 22px 2px 2px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	border-radius: 5px;
+	overflow: hidden;
+	text-align: center;
+}
+#track-logo .loading {
+	margin-top: 55px;
+	padding-top: 0;
+}
+
+#buy {
+	float: right;
+}
+
+#flash { display: none; }
+
+#radio-controls {
+	float: right;
+}
+.control { width: 32px; height: 32px; display: block; float: right; text-align: center; }
+#play { background: url('../images/play.png') no-repeat;}
+#pause { background: url('../images/pause.png') no-repeat;}
+#thumb-up { background: url('../images/thumb-up.png') no-repeat;}
+#thumb-down { background: url('../images/thumb-down.png') no-repeat;}
+#track-artist { font-weight: bold; }
+
+#track-info { display: none; }
+
+#hide-links { font-size: 70%; float: right; }
+
+#radio-state { 
+	float: left; 
+	border-right: 1px solid #CCC; 
+	padding: 15px 20px 0 0;
+	margin-right: 20px; 
+	text-transform: uppercase; 
+	height: 35px;
+}
+#radio-thumbs { float: right; padding-top: 5px; width: 120px;}
+
+#radio #popout { float: right; }
+
+/*******
+*
+*   Station Page Layout
+*
+********/
+
+#add-song #title {
+	margin: 10px 0;
+	padding: 5px;
+	font-size: 120%;
+	width: 710px;
+	
+}
+
+#add-song #track-details {
+	display: none;
+}
+
+#track-details #track-image {
+	float: right;
+}
+
+#track-details #track-reset { float: right; margin-right: 15px; }
+
+#track-details h3 { font-weight: normal; }
