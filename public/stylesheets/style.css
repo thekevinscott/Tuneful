@@ -35,7 +35,6 @@ textarea {
 *   General Content Layout
 *
 ********/
-
 #tuneful { 
 	margin: 20px auto;
 	padding: 25px 45px;
@@ -80,8 +79,9 @@ textarea {
 ********/
 
 #banner {
-	height: 35px;
+	height: 22px;
 	background: #999;
+	padding: 8px 14px;
 }
 
 #header {
@@ -165,7 +165,7 @@ textarea {
 }
 #stations .card .strip {
 	background: white;
-	opacity: .4;
+	opacity: .7;
 	height: 25px;
 }
 
@@ -212,6 +212,7 @@ textarea {
 	text-decoration: none;
 	-moz-border-radius: 4px;
 	-webkit-border-radius: 4px;
+	color: black;
 }
 
 /*******
@@ -320,6 +321,19 @@ textarea {
 *   Station Page Layout
 *
 ********/
+
+
+#search {
+	padding: 40px 0;
+}
+#search-field {
+	margin: 10px 0;
+	padding: 12px; 
+	width: 900px;
+	border: 2px solid #ccc;
+	font-size: 130%;
+	
+}
 
 #add-song #title {
 	margin: 10px 0;

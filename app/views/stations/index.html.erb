@@ -1,64 +1,41 @@
-<h1>Listing stations</h1>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
-<table>
-  <tr>
-    <th>Title</th>
-    <th>Url</th>
-  </tr>
-
-<% @stations.each do |station| %>
-  <tr>
-    <td><%=h station.title %></td>
-    <td><%=h station.url %></td>
-    <td><%= link_to 'Show', station %></td>
-    <td><%= link_to 'Edit', edit_station_path(station) %></td>
-    <td><%= link_to 'Destroy', station, :confirm => 'Are you sure?', :method => :delete %></td>
-  </tr>
-<% end %>
-</table>
-
-<br />
-
-
-<style type="text/css">
-	#top {
-		height: 220px;
-	}
-</style>
-
-<div id="tuneful">
-
-	<div id="top">
-	</div>	
-	<hr />
-	<div id="stations">
-		<div class="card card-large" id="station-1">
-			<div class="strip"></div>
-			<h3>Station 1</h3>
-			<div class="image"><img src="http://farm3.static.flickr.com/2501/4210035862_d5ab0cb04f.jpg" /></div>
-			<ul class="tracks">
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-				<li class="track"><a href="#">More...</a></li>
-			</ul>
-			<div class="actions">
-				<a href="#">Subscribe</a>
-				<a href="#">Listen</a>
-			</div>
-			<div class="subscribers">
-				87 Subscribers
-			</div>
-		</div>
-		<div class="card card-large"></div>
-		<div class="card card-large last"></div>
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Stations: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'style' %>
+  <%= javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' %>
+  <%= javascript_include_tag 'tuneful' %>
+</head>
+<body>
+<div id="banner">
+	<div class="right">
+		<a href="#">Login</a>
+		<a href="#">Register</a>
 	</div>
-	<div class="c"></div>
+	<%= link_to 'Add New Station', new_station_path %>
+
 </div>
+	<div id="tuneful">
+
+	<p style="color: green"><%= flash[:notice] %></p>
 
 
-<%= link_to 'New station', new_station_path %>
+
+		<div id="search">
+			Welcome to Tuneful.org!<br />
+			Search for your favorite music below
+			<input type="text" name="search-field" id="search-field" />
+			<input type="submit" value="Search now" />
+		</div>	
+		<hr />
+		<div id="stations">
+			<%= render :partial => "station_card", :collection => @stations %>
+		</div>
+		<div class="c"></div>
+
+	</div><!-- tuneful -->
+</body>
+</html>

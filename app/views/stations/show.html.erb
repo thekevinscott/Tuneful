@@ -1,13 +1,57 @@
-<p>
-  <b>Title:</b>
-  <%=h @station.title %>
-</p>
+	<div id="station">
+		<div id="header">
+			<div id="station-logo" class="logo" style="background: url(<%=h @station.image %>) no-repeat;"></div>
+			<div id="station-info" class="info">
+				<h1 id="station-name"><%=h @station.title %></h1>
+				<div id="station-actions" class="actions">
+					<a href="#" id="station-share" class="button share">Share</a>
+					<a href="#" id="station-add-song" class="button add-song">Add Song</a>
+					<a href="#" id="station-edit" class="button edit">Edit</a>
+				</div><!-- station-actions -->
+				<span class="station-age">3 months old</span> / <span class="station-listeners">71 listeners</span>
+			</div><!-- station-info -->
+			<div class="c"></div>
 
-<p>
-  <b>Url:</b>
-  <%=h @station.url %>
-</p>
+		</div><!-- header -->
+
+	<div id="sidebar">
+		<div id="sidebar-songs" class="sidebar-section">
+			<h2>Songs</h2>
+			<ul>
+				<? foreach($songs as $song) : ?>
+				<li><?=$song['title']?></li>
+				<? endforeach; ?>
+			</ul>
+		</div>
+		<div id="sidebar-subscribers" class="sidebar-section">
+			<h2>Subscribers</h2>
+			<ul>
+				<? foreach($users as $user) : ?>
+				<li><?=$user?></li>
+				<? endforeach; ?>
+			</ul>
+		</div>
+	</div><!-- sidebar -->
+	
+	<div id="main">
+		<div id="feed-actions" class="actions">
+			<a href="#" id="feed-comment" class="button comment">Comment</a>
+		</div><!-- feed-actions -->
+		<div id="feed">
+			<h2>Feed</h2>
+			
+			<form id="main-comment" class="comment-form">
+				<textarea></textarea><br />
+				<input type="submit" value="Add comment" class="submit button" />
+			</form><!-- comment -->
+			
+			<div id="feed-1" class="feed-item">
+				<div class="feed-date date">7 hours ago</div>
+			</div>
+		</div><!-- feed -->
+		
+	</div><!-- main -->
+	<div class="c"></div>
 
 
-<%= link_to 'Edit', edit_station_path(@station) %> |
-<%= link_to 'Back', stations_path %>
+	</div><!-- station -->

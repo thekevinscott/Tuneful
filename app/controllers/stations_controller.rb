@@ -1,9 +1,11 @@
 class StationsController < ApplicationController
+  
+  #layout false
   # GET /stations
   # GET /stations.xml
   def index
+    
     @stations = Station.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @stations }
@@ -13,11 +15,12 @@ class StationsController < ApplicationController
   # GET /stations/1
   # GET /stations/1.xml
   def show
-    @station = Station.find(params[:id])
+    @station = Station.find_by_url(params[:url])
 
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @station }
+      format.js {  } 
     end
   end
 
@@ -82,4 +85,19 @@ class StationsController < ApplicationController
       format.xml  { head :ok }
     end
   end
+  
+  
+  
+  
+  def subscribe
+    @station = Station.find_by_url(params[:url])
+    format.html { redirect_to(@station) }
+  end
+  def listen
+    @station = Station.find_by_url(params[:url])
+    format.html { redirect_to(@station) }
+  end
+  
+  
+  
 end

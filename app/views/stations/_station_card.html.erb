@@ -1,0 +1,24 @@
+<% last = ((station_card_counter + 1) % 3 == 0 ) ? "last" : nil  %>
+
+<div class="card card-large <%= last %>" id="station-<%=h station_card.url %>">
+	<div class="strip"></div>
+	<h3><a href="station/<%=h station_card.url %>"><%= h station_card.title %></a></h3>
+	<div class="image"><img src="<%=h station_card.image %>" height="340" /></div>
+	<ul class="tracks">
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<li class="track"><a href="#">More...</a></li>
+	</ul>
+	<div class="actions">
+		<a href="station/<%=h station_card.url %>/subscribe">Subscribe</a>
+		<a href="station/<%=h station_card.url %>/listen">Listen</a>
+	</div>
+	<div class="subscribers">
+		87 Subscribers
+	</div>
+</div>
