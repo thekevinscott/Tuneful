@@ -183,6 +183,65 @@ $(function($){
 		// our private init methods
 		createSwf();
 		
+		var radio_menu_html = '';
+		
+		addComment = function(target) {
+			console.log('add comment');
+			$('#radio-more').unbind('mouseout');
+			$('#radio-more-menu').height($('#radio-more-menu').height()).width($('#radio-more-menu').width());
+			$('#radio-more-menu').html('<form rel="'+target+'"><textarea></textarea><a href="#">Cancel</a><input type="submit" value="Add Comment" /></form>');
+			$('#radio-more-menu form').submit(function(e){
+				e.preventDefault();
+				comment = $('#radio-more-menu textarea').val();
+				if (comment) { 
+					$('#radio-more-menu').html('Comment Saved.');
+					setTimeout(function(){
+						$('#radio-more-menu').slideUp(150,closeRadioMenu);
+					},1000);
+					$.post($(this).attr('rel')+'/comment',{},function(data){
+						console.log(data);
+					});
+				} else { alert('You have to write a comment, or cancel.'); }
+			});
+			$('#radio-more-menu a').click(closeRadioMenu);
+		}
+		
+		openRadioMenu = function(e) {
+			e.preventDefault();
+			$('#radio-more').css({	'-moz-border-radius-bottomleft':'0','-moz-border-radius-bottomright':'0',
+									'-webkit-border-radius-bottomleft':'0','-webkit-border-radius-bottomright':'0'});
+			$('#radio-more-menu').show();
+			if (! radio_menu_html) { radio_menu_html = $('#radio-more-menu').html(); }
+		}
+		closeRadioMenu = function(e) {
+			if (e) { e.preventDefault(); }
+			corner = '10px';
+			$('#radio-more').css({	'-moz-border-radius-bottomleft':corner,'-moz-border-radius-bottomright':corner,
+									'-webkit-border-radius-bottomleft':corner,'-webkit-border-radius-bottomright':corner});
+			$('#radio-more-menu').hide().width('200px').height('auto');
+			if (radio_menu_html) { 
+				$('#radio-more-menu').html(radio_menu_html); 
+				menuClickHandlers();
+			}
+		}
+		menuClickHandlers = function(){
+			
+			$('#radio-more-menu a').click(function(e) {
+				
+				e.preventDefault();
+				console.log($(this).attr('id'));
+				switch($(this).attr('id')) {
+					case 'track-buy-song' :
+					break;
+					case 'comment-track' : case 'comment-station' :
+						addComment($(this).attr('id').split('-').pop());
+					break;
+					case 'radio-add-song' :
+					break;
+
+				}
+			});
+		};
 		
 		/****** Set up Player Controls ******/
 		
@@ -218,6 +277,12 @@ $(function($){
 					break;
 				}
 			});
+			
+			
+			$('#radio-more').hover(openRadioMenu, closeRadioMenu);
+			
+			addComment = addComment;
+			menuClickHandlers();
 			
 		});
 		
