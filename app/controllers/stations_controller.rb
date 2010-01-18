@@ -1,8 +1,16 @@
 class StationsController < ApplicationController
+  #before_filter :require_user
   
-  #layout false
-  # GET /stations
-  # GET /stations.xml
+  def require_user
+    redirect_to('/login')
+    #  unless session[:user_id].blank?
+    #    @logged_user = User.find(session[:user_id])
+    #  end
+
+    #rescue ActiveRecord::RecordNotFound
+  end
+
+  
   def index
     
     @stations = Station.all

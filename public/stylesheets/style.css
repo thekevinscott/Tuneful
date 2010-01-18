@@ -1,14 +1,14 @@
 body, html {
-	background: #ddd;
+	background: #FFF;
 	margin: 0;
 	padding: 0;
 	font-family: "Lucida Grande","Tahoma","Lucida Sans Unicode",Tahoma,Verdana;
-	color: #333;
+	color: #20212F;
 }
 html { font-size: 62.5%;}
 body { font-size: 1.6em; }
 .clear, .c { clear: both; }
-a { text-decoration: none; outline: none; color: #333;}
+a { text-decoration: none; outline: none; color: #666666;}
 a:hover { text-decoration: underline; color: #069;}
 img { border: none; }
 
@@ -35,6 +35,11 @@ textarea {
 *   General Content Layout
 *
 ********/
+#logo {
+	width: 200px;
+	float: left;
+}
+
 #tuneful { 
 	margin: 20px auto;
 	padding: 25px 45px;
@@ -72,6 +77,13 @@ textarea {
 
 .loading { text-align: center ; padding-top: 50px; }
 
+#footer {
+	border-top: 1px solid #CCC;
+	font-size: 80%;
+	padding-top: 5px;
+	margin: 0 20px;
+}
+
 /*******
 *
 *   Site-wide layout (shared across pages)
@@ -79,9 +91,17 @@ textarea {
 ********/
 
 #banner {
-	height: 22px;
+	height: 62px;
 	background: #999;
 	padding: 8px 14px;
+	border-bottom:2px groove #BBBBBB;
+}
+
+#notif {
+	background: #FEFFBF;
+	text-align: center;
+	padding: 8px 0;
+	color: #666666;
 }
 
 #header {
@@ -222,11 +242,11 @@ textarea {
 ********/
 
 #radio {
-	position: fixed;
-	width: 100%;
-	height: 120px;
+	width: 400px;
+	height: 40px;
 	background: #ddd;
 	bottom: 0;
+	float: left;
 }
 #radio-inner { padding: 20px 50px; }
 
@@ -235,7 +255,7 @@ textarea {
 }
 
 #radio {
-	background: #fff;
+	background:#666666 none repeat scroll 0 0;
 }
 
 #radio-header {
@@ -262,7 +282,7 @@ textarea {
 }
 
 #radio-contents {
-	padding: 20px;
+	padding: 10px 20px;
 }
 
 #track {
@@ -270,9 +290,9 @@ textarea {
 }
 
 #track-logo {
-	width: 126px;
-	height: 126px;
-	margin: 2px 22px 2px 2px;
+	width: 80px;
+	height: 80px;
+	margin: 0px 22px 2px 2px;
 	-moz-border-radius: 5px;
 	-webkit-border-radius: 5px;
 	border-radius: 5px;
@@ -300,7 +320,7 @@ textarea {
 #thumb-down { background: url('../images/thumb-down.png') no-repeat;}
 #track-artist { font-weight: bold; }
 
-#track-info { display: none; }
+.track-info { width: 200px; margin-left: 120px; }
 
 #hide-links { font-size: 70%; float: right; }
 
@@ -315,6 +335,11 @@ textarea {
 #radio-thumbs { float: right; padding-top: 5px; width: 120px;}
 
 #radio #popout { float: right; }
+
+#radio #station-info { float: right; }
+
+#radio #voting { float: left; width: 100px; }
+#radio #stats { float: left; width: 100px; }
 
 /*******
 *
@@ -354,3 +379,49 @@ textarea {
 #track-details #track-reset { float: right; margin-right: 15px; }
 
 #track-details h3 { font-weight: normal; }
+
+/*******
+*
+*	Minimalist Page
+*
+*******/
+
+#the-floating-log {
+	margin: 40px auto 40px;
+	width: 800px;
+	padding: 30px;
+	background: #EFF0FF;
+	border: 1px solid #CBC2EF;
+	line-height: 20px;
+}
+#the-floating-log #logo {
+	float: left;
+	width: 350px;
+	color: yellow;
+	font-size: 260%;
+	height: 40px;
+}
+#the-floating-log .invite-codes {
+	width: 600px;
+	margin: 30px auto;
+}
+#the-floating-log .invite-codes {
+	text-align: center;
+}
+#the-floating-log .invite-codes p {
+	margin-bottom: 10px;
+}
+#the-floating-log #login {
+	width: 330px;
+	margin: 0 auto;
+}
+#the-floating-log #login .clear {
+	height: 10px;
+}
+#the-floating-log #login label {
+	float: left;
+}
+#the-floating-log #login input {
+	float: right;
+}
+#the-floating-log hr { color: #CBC2EF; background: #CBC2EF; height: 1px; border: none; line-height: 1px; }

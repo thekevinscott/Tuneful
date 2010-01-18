@@ -1,243 +1,110 @@
-== Welcome to Rails
+== Login / Invite Flow
 
-Rails is a web-application framework that includes everything needed to create 
-database-backed web applications according to the Model-View-Control pattern. 
+Logo is in a yellow font
 
-This pattern splits the view (also called the presentation) into "dumb" templates
-that are primarily responsible for inserting pre-built data in between HTML tags.
-The model contains the "smart" domain objects (such as Account, Product, Person,
-Post) that holds all the business logic and knows how to persist themselves to
-a database. The controller handles the incoming requests (such as Save New Account,
-Update Product, Show Post) by manipulating the model and directing data to the view.
+Tuneful is currently invite only. When you come to Tuneful, you are faced with a logo in the upper left, a link to be notified when new invites are ready, a form to login, and a link to more info. This will all live at /login. It will all be ajax; when you submit an email, an email will be sent to me, and also added to the interested_parties table. Login will be handled via ajax as well. More info will load a new page in a lightbox on top.
 
-In Rails, the model is handled by what's called an object-relational mapping
-layer entitled Active Record. This layer allows you to present the data from
-database rows as objects and embellish these data objects with business logic
-methods. You can read more about Active Record in
-link:files/vendor/rails/activerecord/README.html.
+When a user logs in, a yellow notification along the top may inform them they have invitations to give out. These will also appear in the upper right section (where you would expect login to be). Clicking this will launch a pop up, allowing them to specify up to five email addresses to invite.
 
-The controller and view are handled by the Action Pack, which handles both
-layers by its two parts: Action View and Action Controller. These two layers
-are bundled in a single package due to their heavy interdependence. This is
-unlike the relationship between the Active Record and Action Pack that is much
-more separate. Each of these packages can be used independently outside of
-Rails.  You can read more about Action Pack in
-link:files/vendor/rails/actionpack/README.html.
+A user will receive a nicely formatted email in their inbox upon being invited. What happens is a new user is created on the backend, with no username or password, and a unique hash. The register link will look like /register/239fjs9djsbruehfiejhdha. When /register is hit, rails will look for this invite_code, and if not found will display an error message; if found, it will display the register form.
 
 
-== Getting Started
 
-1. At the command prompt, start a new Rails application using the <tt>rails</tt> command
-   and your application name. Ex: rails myapp
-2. Change directory into myapp and start the web server: <tt>script/server</tt> (run with --help for options)
-3. Go to http://localhost:3000/ and get "Welcome aboard: You're riding the Rails!"
-4. Follow the guidelines to start developing your application
+== The static elements
 
+When a user first logs in, there are a number of static elements. The logo sits on the top left and is always visible. To the right of that is the radio box; this is detailed below. To the right of that are a logout link and any invites the user has.
 
-== Web Servers
+Below this top banner is an occasional yellow bar used to display any notifications to the user. This bar will be animated, a slide down effect, upon show, and will have an (x) to the left so that it can be closed easily.
 
-By default, Rails will try to use Mongrel if it's are installed when started with script/server, otherwise Rails will use WEBrick, the webserver that ships with Ruby. But you can also use Rails
-with a variety of other web servers.
-
-Mongrel is a Ruby-based webserver with a C component (which requires compilation) that is
-suitable for development and deployment of Rails applications. If you have Ruby Gems installed,
-getting up and running with mongrel is as easy as: <tt>gem install mongrel</tt>.
-More info at: http://mongrel.rubyforge.org
-
-Say other Ruby web servers like Thin and Ebb or regular web servers like Apache or LiteSpeed or
-Lighttpd or IIS. The Ruby web servers are run through Rack and the latter can either be setup to use
-FCGI or proxy to a pack of Mongrels/Thin/Ebb servers.
-
-== Apache .htaccess example for FCGI/CGI
-
-# General Apache options
-AddHandler fastcgi-script .fcgi
-AddHandler cgi-script .cgi
-Options +FollowSymLinks +ExecCGI
-
-# If you don't want Rails to look in certain directories,
-# use the following rewrite rules so that Apache won't rewrite certain requests
-# 
-# Example:
-#   RewriteCond %{REQUEST_URI} ^/notrails.*
-#   RewriteRule .* - [L]
-
-# Redirect all requests not available on the filesystem to Rails
-# By default the cgi dispatcher is used which is very slow
-# 
-# For better performance replace the dispatcher with the fastcgi one
-#
-# Example:
-#   RewriteRule ^(.*)$ dispatch.fcgi [QSA,L]
-RewriteEngine On
-
-# If your Rails application is accessed via an Alias directive,
-# then you MUST also set the RewriteBase in this htaccess file.
-#
-# Example:
-#   Alias /myrailsapp /path/to/myrailsapp/public
-#   RewriteBase /myrailsapp
-
-RewriteRule ^$ index.html [QSA]
-RewriteRule ^([^.]+)$ $1.html [QSA]
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^(.*)$ dispatch.cgi [QSA,L]
-
-# In case Rails experiences terminal errors
-# Instead of displaying this message you can supply a file here which will be rendered instead
-# 
-# Example:
-#   ErrorDocument 500 /500.html
-
-ErrorDocument 500 "<h2>Application error</h2>Rails application failed to start properly"
+Along the bottom of the page is a contact link, and an about link. These launch lightboxes containing the relevant info.
 
 
-== Debugging Rails
 
-Sometimes your application goes wrong.  Fortunately there are a lot of tools that
-will help you debug it and get it back on the rails.
+== The homepage
 
-First area to check is the application log files.  Have "tail -f" commands running
-on the server.log and development.log. Rails will automatically display debugging
-and runtime information to these files. Debugging info will also be shown in the
-browser on requests from 127.0.0.1.
+On the homepage are two main elements: a search section and a list of radio cards. The search section prompts you to type in a favorite artist or station, with suggestions that appear below, similar to AOS. Upon hitting search a list of stations will appear containing that artist, along with a message saying that you are currently not allowed to create your own station. Eventually, if you use Pandora, you can suck in a station from that, or import Last.fm settings or something, or generate it off an iTunes playlist.
 
-You can also log your own messages directly into the log file from your code using
-the Ruby logger class from inside your controllers. Example:
+The list of radio cards correspond to stations you can choose from. Upon your initial arrival stations are random; when you search stations will appear in the relevant order, so long as they include at least one song from the artist you chose (or the artist of the track you chose). Hovering over a card will show the option to play, play and keep browsing, or to 'investigate' (better word please) the station. Playing means subscribe; eventually you can 'listen anonymously' but not now. The play option is a large triangle overlay; the second two options are along the bottom, much smaller. Playing will update the currently playing station in the radio, investigate will take you to the station.
 
-  class WeblogController < ActionController::Base
-    def destroy
-      @weblog = Weblog.find(params[:id])
-      @weblog.destroy
-      logger.info("#{Time.now} Destroyed Weblog ID ##{@weblog.id}!")
-    end
-  end
+Should stations be images, like how I have it now? Or should they be the album covers of the songs they contain? Perhaps they can be either, depending on whether on creation you specify an image or not.
 
-The result will be a message in your log file along the lines of:
-
-  Mon Oct 08 14:22:29 +1000 2007 Destroyed Weblog ID #1
-
-More information on how to use the logger is at http://www.ruby-doc.org/core/
-
-Also, Ruby documentation can be found at http://www.ruby-lang.org/ including:
-
-* The Learning Ruby (Pickaxe) Book: http://www.ruby-doc.org/docs/ProgrammingRuby/
-* Learn to Program: http://pine.fm/LearnToProgram/  (a beginners guide)
-
-These two online (and free) books will bring you up to speed on the Ruby language
-and also on programming in general.
+There is a sidebar on this page containing most popular stations and recently added stations. Possibly most high-voted users, as well.
 
 
-== Debugger
 
-Debugger support is available through the debugger command when you start your Mongrel or
-Webrick server with --debugger. This means that you can break out of execution at any point
-in the code, investigate and change the model, AND then resume execution! 
-You need to install ruby-debug to run the server in debugging mode. With gems, use 'gem install ruby-debug'
-Example:
+== The radio
 
-  class WeblogController < ActionController::Base
-    def index
-      @posts = Post.find(:all)
-      debugger
-    end
-  end
+The radio, in addition to playing the current track and displaying relevant info about that track, must accommodate the following actions:
 
-So the controller will accept the action, run the first line, then present you
-with a IRB prompt in the server window. Here you can do things like:
+- Comment on playing song
+- Vote up / vote down
+- Add song
+- Eventually a chat room
 
-  >> @posts.inspect
-  => "[#<Post:0x14a6be8 @attributes={\"title\"=>nil, \"body\"=>nil, \"id\"=>\"1\"}>,
-       #<Post:0x14a6620 @attributes={\"title\"=>\"Rails you know!\", \"body\"=>\"Only ten..\", \"id\"=>\"2\"}>]"
-  >> @posts.first.title = "hello from a debugger"
-  => "hello from a debugger"
+It must also allow the ability to 'scan', or listen to snippets from random stations, like the scanning in a regular radio.
 
-...and even better is that you can examine how your runtime objects actually work:
+Proposed layout:
 
-  >> f = @posts.first
-  => #<Post:0x13630c4 @attributes={"title"=>nil, "body"=>nil, "id"=>"1"}>
-  >> f.
-  Display all 152 possibilities? (y or n)
+Station image on the top left, station title to the top right
 
-Finally, when you're ready to resume execution, you enter "cont"
+Track image on left | Track info: title, artist, album, total plays, popularity rating | Vote up / down | Current stats (current listeners, total tracks)
+
+Bottom, left: Comment on playing song, this expands to fill the middle (not the image) could be like a speech bubble
+Bottom, middle: Add a song to station
+Bottom, right: Buy track
+
+The radio can be 'popped out' into a new popout window. This will make the top banner smaller. This can also accommodate an AIR app.
 
 
-== Console
 
-You can interact with the domain model by starting the console through <tt>script/console</tt>.
-Here you'll have all parts of the application configured, just like it is when the
-application is running. You can inspect domain models, change values, and save to the
-database. Starting the script without arguments will launch it in the development environment.
-Passing an argument will specify a different environment, like <tt>script/console production</tt>.
+== Station
 
-To reload your controllers and models after launching the console run <tt>reload!</tt>
+A station will have the image in the top left, followed by the title, the number of subscribers, maybe the creation date. A button along the top allows a subscriber to add songs to a station. Along the right side are subscribers in the station, sorted by their popularity, and the tracks in the station, ranked by their popularity (displayed as words, not numbers - like 'Hot', 'Solid', 'Sucks'). It only shows a few but these can be expanded as necessary.
 
-== dbconsole
+A station's main page is the feed; this shows recent activity. Users can comment on tracks, respond to comments, or comment on the station. It also tracks changes to tracks, so when a track changes from 'New' to 'Sucks' or 'Rocking' to 'Hot'.
 
-You can go to the command line of your database directly through <tt>script/dbconsole</tt>.
-You would be connected to the database with the credentials defined in database.yml.
-Starting the script without arguments will connect you to the development database. Passing an
-argument will connect you to a different database, like <tt>script/dbconsole production</tt>.
-Currently works for mysql, postgresql and sqlite.
 
-== Description of Contents
 
-app
-  Holds all the code that's specific to this particular application.
+== Playlist Generation
 
-app/controllers
-  Holds controllers that should be named like weblogs_controller.rb for
-  automated URL mapping. All controllers should descend from ApplicationController
-  which itself descends from ActionController::Base.
+A station has a number of tracks, with a net rating. The net rating is calculated by taking the sum of positive and negative votes. This will result in a rating between -1 and 1. If a track's total number of ratings is less than the total number of subscribers in the station it belongs to, it is considered to be "in limbo". A track classified as such is added positive points equal to the total number of subscribers less the total number of votes; so a track in limbo that has 4 total votes, and a net score of 2 (3 positive, 1 negative) where a station has 20 subscribers, will end up with a net rating 18 (or 2 + 20 - 4). The total number of votes is important; a track that is consistently voted highly regardless of its negative votes should have higher weight than a track that has only positive ratings, but less of them overall. A track should have a limit of votes in order to exclude old votes; this limit should be the total number of subscribers * 24 * 30, or the maximum number of votes a track could get if it played every hour, voted on by every subscriber, for a month.
 
-app/models
-  Holds models that should be named like post.rb.
-  Most models will descend from ActiveRecord::Base.
+There are a few simple rules regarding stations. A track should not generally play more than once an hour, and so a station must have enough tracks so that the tracks' total duration is more than an hour. A playlist is generally considered to be at least 24 hours in length.
 
-app/views
-  Holds the template files for the view that should be named like
-  weblogs/index.html.erb for the WeblogsController#index action. All views use eRuby
-  syntax.
+After the net rating calculation, when a playlist is constructed, a check is performed to delete from the station any tracks with a negative rating greater than the total number of subscribers in the station. So a station with 20 subscribers, that has a score of -21, is automatically deleted, assuming this does not reduce the duration of the station below an hour.
 
-app/views/layouts
-  Holds the template files for layouts to be used with views. This models the common
-  header/footer method of wrapping views. In your views, define a layout using the
-  <tt>layout :default</tt> and create a file named default.html.erb. Inside default.html.erb,
-  call <% yield %> to render the view using this layout.
+The median track duration (or should it be the average?) is calculated, and then weights are re-calculated. Let's assume the median track duration is 5 minutes. Shorter tracks should play more often; longer tracks less often. If a track is 60 minutes in length, it should only play once per playlist. Assuming all weights are equal, and there are 12 total tracks, 11 that have durations of 5 minutes and 1 that is 60 minutes, then the 60-minute track is determined to have a discrepancy of 55*60 or 3300, while every other track has a discrepancy of 0. If every track has equal weights - say 20 - ... well, I'm not sure yet.
 
-app/helpers
-  Holds view helpers that should be named like weblogs_helper.rb. These are generated
-  for you automatically when using script/generate for controllers. Helpers can be used to
-  wrap functionality for your views into methods.
+Every track's rating is increased by 1 plus the lowest negative track's absolute value of its rating; so a playlist with a track having a rating of -15 will see all tracks increased by 16.
 
-config
-  Configuration files for the Rails environment, the routing map, the database, and other dependencies.
+We must also weight the playlist to prevent any one song from dominating a playlist and thus playing more than once an hour. The equation for this is x = (highest_rating * plays_in_a_day / 24 ) - total number of votes. The 'x' value is then distributed equally amongst all tracks, thus diluting the top tracks relative value.
 
-db
-  Contains the database schema in schema.rb.  db/migrate contains all
-  the sequence of Migrations for your schema.
+86400 is the total number of seconds in a day. When we divide by our median track duration of 5*60 or 300, we get 288, implying that we have 288 tracks to play in the playlist. We calculate percentages for each track by taking the total number of votes for all tracks in the playlist, then dividing a track's net rating by that total number. We then multiply each tracks percentage by the number of tracks in the playlist, rounding up, to determine how many times a track should play in the playlist.
 
-doc
-  This directory is where your application documentation will be stored when generated
-  using <tt>rake doc:app</tt>
+Now each track has a number corresponding to the number of times it will appear in the playlist. We sort the array to be ascending, then iterate over the array to create a new array, inserting items as equally as possible. So for instance:
+A - 2
+B - 3
+C - 5
+D - 8
+Will produce: AA, then BABAB, then CBCACBCACB, then DCBDCDADCBDCDADCBD
+(ask for suggestions about this on stack)
 
-lib
-  Application specific libraries. Basically, any kind of custom code that doesn't
-  belong under controllers, models, or helpers. This directory is in the load path.
 
-public
-  The directory available for the web server. Contains subdirectories for images, stylesheets,
-  and javascripts. Also contains the dispatchers and the default HTML files. This should be
-  set as the DOCUMENT_ROOT of your web server.
 
-script
-  Helper scripts for automation and generation.
+== Tasks
 
-test
-  Unit and functional tests along with fixtures. When using the script/generate scripts, template
-  test files will be generated for you and placed in this directory.
-
-vendor
-  External libraries that the application depends on. Also includes the plugins subdirectory.
-  If the app has frozen rails, those gems also go here, under vendor/rails/.
-  This directory is in the load path.
+- Set up key / store cloud database
+- Design logo
+- Set up login / invite flow
+- Build admin screen, for me to specify who gets invites
+- Design radio
+- Build banner, footer
+- Build notification functionality
+- Set up models: track, artist, album, station, user, comments
+- Seed with initial values for stations
+- Set up auto-suggestions search box
+- Set up cards
+- Search for cards
+- Fill out station
+- and we have version 0.5 !
+- Add a station functionality

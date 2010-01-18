@@ -18,38 +18,6 @@
   <%= javascript_include_tag 'radio' %>
 </head>
 <body>
-<div id="banner">
-	<div class="right">
-		(3 invites left) Logout
-	</div>
-	<div id="logo">Tuneful</div>
-	 <%= render :partial => "radio" %>
-
-</div>
-
-	<div id="notif"><a href="#">You have three invites left</a></div>
-	<div id="tuneful">
-
-		<div id="search">
-			Welcome to Tuneful.org!<br />
-			Search for your favorite music below
-			<input type="text" name="search-field" id="search-field" />
-			<input type="submit" value="Search now" />
-		</div>	
-		<hr />
-		<div id="stations">
-			<%= render :partial => "station_card", :collection => @stations %>
-		</div>
-		<div class="c"></div>
-
-	</div><!-- tuneful -->
-	
-	
-<div id="footer">
-	<div class="right">Contact | About</div>
-	Be amazed by my wit
-</div>	
-	
-	
+<%= yield %>
 </body>
 </html>

@@ -1,0 +1,43 @@
+<div id="the-floating-log">
+	<div id="logo">Tuneful</div>
+
+	
+	<p>Tuneful is a collaborative radio station, built from the ground up to harness the collective intelligence of the crowd. <%= link_to 'More info', '#', :class => 'lightbox' %></p>
+		<hr />
+	<div class="invite-codes">
+	<p>Tuneful is currently invite only. If you would like an invite code, please leave your email address, and we'll add you to the list! New invites are sent out periodically.</p>
+
+	<% form_for(@InterestedParty) do |f| %>
+	    <%= f.text_field :email %>
+	    <%= f.submit 'Submit' %>
+	<% end %>
+	</div>
+		<hr />
+	<div id="login">
+		<br />
+	<strong>If you are currently a member, please login below.</strong>
+	<br /><br />
+	<% form_for(@user) do |f| %>
+
+	  <p>
+	    <%= f.label :name %>
+	    <%= f.text_field :name %>
+	  </p>
+	<div class="clear"></div>
+
+	  <p>
+	    <%= f.label :password %>
+	    <%= f.text_field :password %>
+	  </p>
+	
+	<div class="clear"></div>
+	  <p>
+	    <%= f.submit 'Login' %>
+	  </p>
+	<% end %>
+	</div>
+</div>
+<div id="footer">
+	<p class="right">There could be a logo here.</p>
+	<p>Tuneful... is your father</p>
+</div>
