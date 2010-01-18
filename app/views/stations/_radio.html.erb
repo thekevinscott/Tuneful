@@ -1,28 +1,33 @@
 <div id="radio">
-	<div id="radio-top">
-		<div class="right">60's Rock</div>
-		<img src="http://farm4.static.flickr.com/3288/2353968186_860446d29c_t_d.jpg" width="30" height="30" />
-	</div>
-	<div id="radio-middle">
-
-		<div id="track-logo" class="logo"><img src="<?=html?>images/loading-small.gif" alt="Loading" class="loading" /></div>
+	<img src="http://farm4.static.flickr.com/3288/2353968186_860446d29c_t_d.jpg" width="30" height="30" class="left" />
+	<div id="radio-contents">
+		<div id="radio-left">
+		<% # <div id="track-logo" class="logo"><img src="<?=html?>images/loading-small.gif" alt="Loading" class="loading" /></div>
+		%>
 		<div class="track-info">
-			<h2 id="track-title"></h2>
-			<p id="track-artist"></p>
-			<p id="track-album"></p>
+			<div class="track-info-sub">
+			<div class="track-info-wrapper" title="Jimi Hendrix / Your mom">
+				<p id="track-title"></p> /
+				<p id="track-artist"></p> /
+				<p id="track-album"></p>
+			</div>
+
+			<div id="track-info-toggle"><a href="#" rel="closed">&raquo;</a></div>
+			<div class="clear"></div>
+			</div>			
 		</div>
-		<div id="voting">
-			Vote up / down
 		</div>
-		<div id="stats">
-		Current Stats
+		<div id="radio-right">
+			<div id="track-voting">
+				<a href="up" id="vote-up"><img src="images/vote_up.png" alt="Vote Up"></a>
+				<a href="down" id="vote-down"><img src="images/vote_down.png" alt="Vote Down"></a>
+			</div>
+			<div class="radio-more">
+				<a href="#">More</a>
+			</div>
 		</div>
 	</div>
-	<div id="radio-bottom">
-		Comment
-		Add a song
-		Buy track
-	</div>
+	<div class="clear"></div>
 	<div id="track">
 		<%# <div class="status">Connecting to Radio<br /><img src="<?=html?>images/loading-small.gif" alt="Loading" /></div> %>
 		
@@ -35,4 +40,7 @@
 		{'playlist' : {'servertime': 123, 'tracks' : [{'id': 2, 'title': 'Hey Joe', 'artist':'Jimi Hendrix','album':'','url':'QLnKUiybiFo'}] },
 		 'station' : {'title': '60\'s Rock', 'url': 'werwrewrwr'} }
 	);
+	
+	
+	
 </script>

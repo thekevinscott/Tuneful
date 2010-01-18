@@ -6,12 +6,13 @@ var tuneful = $(function($){
 		// initialize
 		
 		$(document).ready(function(){
+			/*
 			$('a:not(.lightbox)').click(function(e){
 				e.preventDefault();
 				window.location.hash = $(this).attr('href');
 				go($(this).attr('href'));
 			});
-			
+			*/
 			$("a.lightbox").fancybox();
 		});
 		

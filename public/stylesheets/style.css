@@ -6,7 +6,7 @@ body, html {
 	color: #20212F;
 }
 html { font-size: 62.5%;}
-body { font-size: 1.6em; }
+body { font-size: 1.4em; }
 .clear, .c { clear: both; }
 a { text-decoration: none; outline: none; color: #666666;}
 a:hover { text-decoration: underline; color: #069;}
@@ -91,7 +91,7 @@ textarea {
 ********/
 
 #banner {
-	height: 62px;
+	height: 40px;
 	background: #999;
 	padding: 8px 14px;
 	border-bottom:2px groove #BBBBBB;
@@ -242,33 +242,38 @@ textarea {
 ********/
 
 #radio {
-	width: 400px;
-	height: 40px;
-	background: #ddd;
+	width: 490px;
+	height: 30px;
+	background: #666666;
 	bottom: 0;
 	float: left;
-}
-#radio-inner { padding: 20px 50px; }
-
-#radio-actions {
-	float: right;
-}
-
-#radio {
-	background:#666666 none repeat scroll 0 0;
+	padding: 5px;
+	
+	-moz-border-radius: 10px; 
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
 }
 
-#radio-header {
-	background: #aaa;
-	height: 25px;
-	-moz-border-radius-topleft: 15px;
-	-webkit-border-radius-topleft: 15px;
-	border-radius-topleft: 15px;
-	-moz-border-radius-topright: 15px;
-	-webkit-border-radius-topright: 15px;
-	border-radius-topright: 15px;
-	padding: 5px 20px 0 20px;
+#radio #radio-left, #radio #radio-right {
+	height: 30px;
+	float: left;
 }
+#radio #radio-left {
+	width: 300px;
+}
+#radio #radio-right {
+	width: 154px;
+}
+
+#radio #radio-contents {
+	float: left; 
+	width: 93%;
+}
+
+#radio a {
+	color: black;
+}
+
 
 #radio-header .logo {
 	width: 20px;
@@ -276,19 +281,6 @@ textarea {
 	float: right;
 	background: #333;
 }
-
-#radio h1 {
-	border: 0; 
-}
-
-#radio-contents {
-	padding: 10px 20px;
-}
-
-#track {
-
-}
-
 #track-logo {
 	width: 80px;
 	height: 80px;
@@ -314,15 +306,61 @@ textarea {
 	float: right;
 }
 .control { width: 32px; height: 32px; display: block; float: right; text-align: center; }
-#play { background: url('../images/play.png') no-repeat;}
-#pause { background: url('../images/pause.png') no-repeat;}
-#thumb-up { background: url('../images/thumb-up.png') no-repeat;}
-#thumb-down { background: url('../images/thumb-down.png') no-repeat;}
-#track-artist { font-weight: bold; }
+#track-title { font-weight: bold; }
 
-.track-info { width: 200px; margin-left: 120px; }
+.track-info { 
+	float: left; 
+	color: #CCC; 
+	width: 100%;
+}
+.track-info-sub {
+margin: 0 0 0 6px; 
+padding: 6px 7px; 
+background: #444;
+-moz-border-radius: 5px; 
+-webkit-border-radius: 5px;
+border-radius: 5px;
+overflow: hidden;
+	position: relative;	
+}
+.track-info-wrapper {
+	height: 18px;
+	overflow: hidden;
+	float: left;
+}
+.track-info h2, .track-info p { display: inline; }
+#radio #track-info-toggle { 
+	font-size: 150%; 
+	padding: 10px; 
+	height: 20px; 
+	background: #444 ; 
+	position: absolute; 
+	padding: 1px 10px 10px 16px;
+	right: 0; 
+	top: 0;
+}
+#radio .track-info a { color: #999; }
+#radio .track-info a:hover { text-decoration: none; }
 
-#hide-links { font-size: 70%; float: right; }
+#track-voting {
+	padding: 6px 7px;
+	float: left;
+}
+#track-voting a {
+	margin: 0 4px;
+}
+.radio-more {
+	float: left;
+	background: #999;
+	padding: 4px 28px 4px 12px;
+	margin: 2px 6px;
+	-moz-border-radius: 10px; 
+	-webkit-border-radius: 10px;
+	border-radius: 10px;
+}
+.radio-more a {
+	text-decoration: none;
+}
 
 #radio-state { 
 	float: left; 

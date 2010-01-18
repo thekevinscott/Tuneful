@@ -183,6 +183,49 @@ $(function($){
 		// our private init methods
 		createSwf();
 		
+		
+		/****** Set up Player Controls ******/
+		
+		$(document).ready(function(){
+		
+		
+			// open, close track info
+			var radioSectionWidths = {left: $('#radio-left').width(), right: $('#radio-right').width()};
+			$('#track-info-toggle a').click(function(e){
+				e.preventDefault();
+				if ($(this).attr('rel')=='closed') { // then open it
+					$('#radio-left').animate({width:'100%'});
+					$('#radio-right').animate({width:'0%',opacity:0});
+					$(this).attr('rel','open').html('&laquo;');
+
+				} else {
+					$('#radio-left').animate({width:radioSectionWidths.left});
+					$('#radio-right').animate({width:radioSectionWidths.right,opacity:1});	
+					$(this).attr('rel','closed').html('&raquo;');		
+				}
+			});
+			
+			// voting
+			$('#track-voting a').click(function(e){
+				e.preventDefault();
+				direction = $(this).attr('id').split('-').pop();
+				console.log(direction);
+				switch(direction) {
+					case 'up' :
+						
+					break;
+					case 'down' :
+					break;
+				}
+			});
+			
+		});
+		
+		vote = function(el) {
+			alert(el);
+		}
+		
+		
 		return {
 			player : player,
 			playerid : playerid,
@@ -231,107 +274,6 @@ $(function($){
 				this.play();
 				if (! this.muted) {	$('#radio-state').html(this.state);	}
 			},
-
-/*
-			setupControls : function() {
-				if (! this.embedded) { this.keyListeners(); }
-				this.radioControls();
-				$('#station-logo').click(function(){window.open('station.php','Station');});
-				//trace('I have arrived');
-				$('#buy #hide-links').click(function(){
-					if ($(this).hasClass('hidden')) {
-						$(this).removeClass('hidden');
-						$('#buy .button').show();
-						$(this).html('Hide links');
-					} else {
-						$(this).addClass('hidden');
-						$('#buy .button').hide();
-						$(this).html('Show buy links');
-					}
-				});
-			},
-			radioControls : function() {
-				self = this;
-				$('#radio-controls a').each(function(i,idx){
-					$(this).click(function(){
-						action = $(this).attr('id');
-						switch(action) {
-							case 'thumb-up' : case 'thumb-down' :
-								self.thumb(this);
-							break;
-						}
-					});
-				}).hover(function(){
-						$(this).parent().find('.help').html($(this).attr('title'));
-					},function(){
-						$(this).parent().find('.help').html('');
-					});
-			},
-
-			keyListeners : function() {
-				var self = this;
-				$(document).keydown(function(e){
-					key = e.keyCode;
-					switch(key) {
-
-						case 32 : 	// space
-							//self.playPause();
-							self.volume('toggle');
-						break;
-						case 38 :
-							self.thumb('up');
-						break;
-						case 40 :
-							self.thumb('down');
-						break;
-						case 61 : case 107 :
-							self.volume('up');
-						break;
-						case 109 :
-							self.volume('down');
-						break;
-					}
-				})
-			},
-			thumb : function(obj) {
-				cssOff = {opacity:0.3}; cssOn = {opacity:1.0};
-				if (typeof(obj)=='string'){obj = $('#radio-thumbs a#thumb-'+obj);}
-				dir = $(obj).attr('id').split('-').pop();
-				trace(dir);
-				$("#radio-thumbs a").unbind('mouseenter mouseleave').css(cssOn);  
-				$('#radio-thumbs .help').css({color:'#333333'}).html($(obj).attr('title'));
-
-				if (dir=='up') { anti = 'down' } else { anti = 'up'; }
-				$('#radio-thumbs a#thumb-'+anti).css(cssOff).hover(function(){$(this).css(cssOn)},function(){$(this).css(cssOff)});
-			},
-			resetThumbs : function() {
-				$('.help').html('').css({color:'#999'});
-				$('#radio-thumbs a').css({opacity:1.0});
-			},
-			volume : function(dir) {
-				if (dir=='toggle') {
-					if (this.muted) {
-						this.on();
-					} else {
-						this.off();
-					}
-				}
-				trace('volumne '+dir);
-			},
-			on : function() {
-				this.muted = false;
-				$('#radio-state').html(this.state);
-				if (this.player) { this.player.unMute(); }
-			},
-			off : function() {
-				this.muted = true;
-				$('#radio-state').html('OFF');
-				if (this.player) { this.player.mute(); }
-			},
-			close : function() {
-				$(this.player).remove();
-				$('#radio').slideUp();
-			},*/
 			update : function()
 			{
 				trace(this.updates);
