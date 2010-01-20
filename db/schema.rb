@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100119233445) do
+ActiveRecord::Schema.define(:version => 20100120181204) do
 
   create_table "Stations", :force => true do |t|
     t.string   "title"
@@ -27,8 +27,8 @@ ActiveRecord::Schema.define(:version => 20100119233445) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "file"
-    t.string   "file_type"
     t.boolean  "verified",   :default => false
+    t.integer  "duration"
   end
 
   create_table "Users", :force => true do |t|
@@ -39,6 +39,11 @@ ActiveRecord::Schema.define(:version => 20100119233445) do
     t.datetime "updated_at"
     t.string   "unique_hash"
     t.string   "hashed_password"
+  end
+
+  create_table "admins", :force => true do |t|
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "artists", :force => true do |t|

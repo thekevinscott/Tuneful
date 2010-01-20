@@ -25,13 +25,13 @@
 		(3 invites left) Logout
 	</div>
 	<div id="logo">Tuneful</div>
-	 <%= render :partial => "radio" %>
+	 <%= render :partial => "radio", :station => @station %>
 
 </div>
 
 	<div id="notif"><a href="#"><img src="images/cancel.png" alt="Cancel"></a><a href="#">You have three invites left</a></div>
 	<div id="tuneful">
-
+		<%= @media_url %>
 		<div id="search">
 			Welcome to Tuneful.org!<br />
 			Search for your favorite music below
@@ -40,7 +40,6 @@
 		</div>	
 		<hr />
 		<div id="stations">
-			
 			<%= render :partial => "station_card", :collection => @stations %>
 		</div>
 		<div class="c"></div>

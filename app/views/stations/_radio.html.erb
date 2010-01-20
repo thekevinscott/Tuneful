@@ -60,11 +60,15 @@
 <div id="player"></div>
 
 <script type="text/javascript">
+/*
+<%= @playlist.to_json %>
+
+
 	tuneful.radio.connect(
 		{'playlist' : {'servertime': 123, 'tracks' : [{'id': 2, 'title': 'Hey Joe', 'artist':'Jimi Hendrix','album':'','url':'QLnKUiybiFo'}] },
 		 'station' : {'title': '60\'s Rock', 'url': '60s_rock'} }
 	);
-	
-	
+*/	
+tuneful.radio.connect(<%= @playlist.to_json %>);	
 	
 </script>

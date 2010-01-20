@@ -1,7 +1,9 @@
 class StationsController < ApplicationController
   #before_filter :require_user
-  require 'youtube'
 
+  require 'rubygems'  
+  require 'youtube_g'
+  
 
   def require_user
     redirect_to('/login')
@@ -28,10 +30,16 @@ class StationsController < ApplicationController
     elsif (! params[:artist])
       @error = 'You must provide an artist'
     else
-      a = Artist.new({:title=>params[:artist]})
-      a.save()
+  		client = YouTubeG::Client.new
+  		@media = client.videos_by(:query => params[:track]+' '+params[:artist]).videos[0].media_content[0]
+    	@media_url = @media.url.split('?').shift.split('/').pop
+    	a = Artist.find_by_title(params[:artist])
+    	if a.nil?
+        a = Artist.new({:title=>params[:artist]})
+        a.save()
+  	  end
       #t = a.tracks.new({:title=>params[:track]}).save()
-      @track = a.tracks.new({:title=>params[:track]})
+      @track = a.tracks.new({:title=>params[:track],:file=>@media_url,:duration=>@media.duration})
       @track.save();
       @station.tracks.push(@track)
       @error = 0
@@ -44,9 +52,9 @@ class StationsController < ApplicationController
   end
   
   def index
-    videos = YouTube::Client.new.videos_by(:query => "penguin")
     
     @stations = Station.all
+    @playlist = Station.first.get_playlist
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @stations }
@@ -61,7 +69,7 @@ class StationsController < ApplicationController
     respond_to do |format|
       format.html # show.html.erb
       format.xml  { render :xml => @station }
-      format.js {  } 
+
     end
   end
 

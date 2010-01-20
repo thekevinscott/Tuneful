@@ -1,8 +1,10 @@
 	<div id="station">
 		<div id="header">
-			<div id="station-logo" class="logo" style="background: url(<%=h @station.image %>) no-repeat;"></div>
+			<div id="station-logo" class="logo" style="background: url(<%= #h @station.image 
+			%>) no-repeat;"></div>
 			<div id="station-info" class="info">
-				<h1 id="station-name"><%=h @station.title %></h1>
+				<h1 id="station-name"><%= #h @station.title 
+				%></h1>
 				<div id="station-actions" class="actions">
 					<a href="#" id="station-share" class="button share">Share</a>
 					<a href="#" id="station-add-song" class="button add-song">Add Song</a>

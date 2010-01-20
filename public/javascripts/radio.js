@@ -47,7 +47,6 @@ $(function($){
 					for (var i in options.playlist.tracks) { playlist.push(options.playlist.tracks[i]); }
 				} else { this.throwError('No playlist provided.'); }
 				
-				
 				if (options.station && options.station.title && options.station.url) {
 					station = options.station; 
 					/*
@@ -72,7 +71,7 @@ $(function($){
 					//console.log('swf has not been inited yet');
 				}
 				
-				if ($('#radio-add-song').length>0) { 
+				if ($('#radio-add-song').length>0) {
 					$('#radio-add-song').attr('href','station/'+station.url+'/find_song');
 				}
 				
@@ -86,7 +85,7 @@ $(function($){
 				
 				if (state!='Playing') {	// start playing
 					start = playlist[index].start || 0;
-					player.loadVideoById(playlist[index].url,start);
+					player.loadVideoById(playlist[index].file,start);
 					playlist[index].playing = true;
 
 					getTrackInfo(index);	
@@ -147,6 +146,7 @@ $(function($){
 				$('#track-info').show();
 				if (track.image) { $('#track-logo').css('background','url('+track.image+') no-repeat').html(''); }
 				else { this.playlist[index].writeWhenReady = true; }
+				console.log(track);
 				$('#track-title').html(track.title);
 				$('#track-artist').html(track.artist);
 				$('#track-album').html(track.album);
@@ -157,9 +157,9 @@ $(function($){
 		
 		loadNext = function() {
 			trace('load next');
-			url = window.location.pathname;
+			file = window.location.pathname;
 			var self = this;
-			$.getJSON(url,{next:true},function(data){
+			$.getJSON(file,{next:true},function(data){
 				index = self.playlist.push(data.tracks[0]) - 1;
 				trace(data);
 				trace(data.servertime);
@@ -192,7 +192,6 @@ $(function($){
 		
 		
 		addComment = function(target) {
-			console.log('add comment');
 			$('#radio-more').unbind('mouseout');
 			$('#radio-more-menu').height($('#radio-more-menu').height()).width($('#radio-more-menu').width());
 			
@@ -246,7 +245,6 @@ $(function($){
 			$('#radio-more-menu a').click(function(e) {
 				
 				e.preventDefault();
-				console.log($(this).attr('id'));
 				switch($(this).attr('id')) {
 					case 'track-buy-song' :
 						$('#radio-more-menu #radio-more-menu-wrapper').slideUp('fast');
@@ -271,6 +269,7 @@ $(function($){
 		
 			// open, close track info
 			var radioSectionWidths = {left: $('#radio-left').width(), right: $('#radio-right').width()};
+			
 			$('#track-info-toggle a').click(function(e){
 				e.preventDefault();
 				if ($(this).attr('rel')=='closed') { // then open it
@@ -307,7 +306,7 @@ $(function($){
 			
 			
 			// add scrolling text
-			$('.track-info-wrapper').scroller();
+			$('.track-info-wrapper').scroller({toggle:$('#track-info-toggle a')});
 			
 		});
 		
@@ -358,7 +357,6 @@ $(function($){
 			play : play,
 
 			next : function() {		
-				console.log('next');		
 				//this.playing = false;
 				radio.playlist.shift();
 				this.play();
@@ -376,7 +374,7 @@ $(function($){
 				}	
 				options.title = track.title;
 				options.track_id = track.id;
-				save({url:'track/update',options:options});
+				save({file:'track/update',options:options});
 			},
 
 			throwError : throwError,

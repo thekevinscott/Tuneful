@@ -1,0 +1,39 @@
+<h1>Unverified Tracks</h1>
+<table border="1">
+<thead><tr><th>&nbsp;</td><td>Title</td><td>Link</td><td>Duration</td><td>Verify</td><td>Edit</td></tr></thead>
+<tbody>
+	<% i = 1 %>
+	<% @tracks.each do |t| %>
+
+	<tr rel="<%= t.id %>"><td><%= i %></td><td><%=h t.title %></td><td><a href="http://www.youtube.com/watch?v=<%=h t.file %>" target="_blank"><%=h t.file %></a></td><td><%=h t.duration %></td><td style="text-align: center;"><input type="checkbox" /></td><td><input type="text" /><input type="button" value="Update" class="update" /></td></tr>
+	<% i = i + 1%>
+<% end %>
+</tbody>
+</table>
+<script type="text/javascript">
+
+$('input:checkbox').click(function(){
+	$(this).parent().parent().css({background:'yellow'});
+	
+	$.get('/admin/verify/'+$(this).parent().parent().attr('rel'),{},function(data){
+		if (! data.error) {
+			setTimeout(function(){
+				populateTracks();
+			},1000);
+		}
+	});
+});
+
+$('input.update').click(function(e){
+	$(this).parent().parent().css({background:'yellow'});
+	
+	e.preventDefault();
+	$.post('/admin/verify/'+$(this).parent().parent().attr('rel'),{file:$(this).parent().children('input:text').val()},function(data){
+		if (! data.error) {
+			setTimeout(function(){
+				populateTracks();
+			},1000);
+		}
+	});
+});
+</script>

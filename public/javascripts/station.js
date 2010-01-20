@@ -24,9 +24,17 @@ $(function($){
 			str = '';
 			if (data&&data.results&&data.results.trackmatches&&data.results.trackmatches.track) {
 				num = (numberOfResults <= data.results.trackmatches.track.length) ? numberOfResults : data.results.trackmatches.track.length;
-				for (var i=0;i<numberOfResults;i++) {
-					track = data.results.trackmatches.track[i];
-					str += '<li><a href="#" rel="{id:'+i+',artist:'+track.artist+',track:'+track.name+'}" >'+track.name+' / '+track.artist+'</a></li>';
+				
+				buildTracks = function(track) {
+					return '<li><a href="#" rel="{id:'+i+',artist:'+track.artist+',track:'+track.name+'}" >'+track.name+' / '+track.artist+'</a></li>';
+				}
+				
+				if (data.results.trackmatches.track[0]) {
+					for (var i=0;i<numberOfResults;i++) {
+						str += buildTracks(data.results.trackmatches.track[i]);
+					}
+				} else {	
+					str += buildTracks(data.results.trackmatches.track);					
 				}
 				$('#search-results').html(str);
 			
@@ -44,10 +52,11 @@ $(function($){
 						clearTimeout(functionCount);
 						console.log(data);
 						if (! data.error && $('#search-results').html()!=errorText) {
-							$('#add-song').html("Success! "+rel.track+" by "+rel.artist+" has been added to 60's Rock. Enjoy.<br /><br /><small>This message will self destruct in 4 seconds.</small>");
+							$('#add-song').html("Success! "+rel.track+" by "+rel.artist+" has been added to 60's Rock. Enjoy.");
+							/*
 							setTimeout(function(){
 								$.fn.fancybox.close();
-							},4000);
+							},4000);*/
 						} else {							
 							$('#add-song').html(errorText);
 						}

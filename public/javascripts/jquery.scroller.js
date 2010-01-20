@@ -6,6 +6,16 @@
 		var offset = 35;
 		var scrollingIntervals = {};
 		this.each(function() {
+			if (params.toggle) {
+				
+				$(document).ready(function(){
+					$('#track-info-toggle a').click = function() {
+						//alert('shit balls');
+					}
+				});
+				
+			}
+			
 			
 			if (! memory[this] || $(this).html!= memory[this]) {
 				memory[this] = $(this).html();

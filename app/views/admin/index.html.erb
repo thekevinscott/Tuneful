@@ -1,0 +1,38 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+       "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
+  <title>Stations: <%= controller.action_name %></title>
+  <%= stylesheet_link_tag 'style' %>
+  <%= stylesheet_link_tag 'jquery.fancybox-1.2.6' %>
+  <%= #javascript_include_tag 'http://ajax.googleapis.com/ajax/libs/jquery/1.3.2/jquery.min.js' 
+%>
+  <%= javascript_include_tag 'jquery.min.js' %>
+
+  <%= javascript_include_tag 'swfobject' %>
+	
+<style type="text/css">
+	table {
+		border-collapse: collapse;
+	}
+	table thead { font-weight: bold; }
+	td { padding: 5px; }
+</style>
+</head>
+<body style="padding: 20px;">
+	
+	<div id="tracks">
+	</div>
+	<script type="text/javascript">
+		
+		populateTracks = function() {
+			$.get('/admin/tracks',{},function(data){
+				$('#tracks').html(data);
+			});
+		}
+		populateTracks();
+	</script>
+</body>
+</html>
