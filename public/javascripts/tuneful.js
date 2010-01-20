@@ -13,7 +13,9 @@ var tuneful = $(function($){
 				go($(this).attr('href'));
 			});
 			*/
-			$("a.lightbox").fancybox();
+			//$('#radio-more-menu a.lightbox').fancybox({'hideOnContentClick':false,'frameHeight': 600,'overlayOpacity':0.6});
+			
+			$("a.lightbox").fancybox({hideOnContentClick:false,'frameHeight': 500,'overlayOpacity':0.8});
 		});
 		
 		currentLink = window.location.hash.substring(1);
@@ -117,6 +119,12 @@ var tuneful = $(function($){
 	}({});
 }(jQuery))[0];
 
+/****
+*
+* Misc functions and extensions
+*
+*****/
+
 function trace(msg){
 	if (window['console']&&console.log) { console.log(msg); }
 }
@@ -124,7 +132,96 @@ function trace(msg){
 function onYouTubePlayerReady(playerId) { 
 	tuneful.onYouTubePlayerReady(playerId);
 }
-jQuery.fn.loading = function(data) {
-	if (data) { data = '<br />'+data; } else { data = null; }
-	$(this).html('<div class="loading"><img src="'+html+'images/loading.gif" alt="Loading" />'+data+'</div>');
-};
+
+
+function makeBorders(size,opts) {
+	size = parseInt(size)+'px';
+	if (opts) {
+		obj = {};
+		for (var i in opts) {
+			switch(opts[i]) {
+				case 'top' :
+					obj['-moz-border-radius-topleft'] = size;
+					obj['-webkit-border-top-left-radius'] = size;
+					obj['-moz-border-radius-topright'] = size;
+					obj['-webkit-border-top-right-radius'] = size;
+				break;
+				case 'bottom' :
+					obj['-moz-border-radius-bottomleft'] = size;
+					obj['-webkit-border-bottom-left-radius'] = size;
+					obj['-moz-border-radius-bottomright'] = size;
+					obj['-webkit-border-bottom-right-radius'] = size;
+				break;
+				case 'right' :
+					obj['-moz-border-radius-topright'] = size;
+					obj['-webkit-border-top-right-radius'] = size;
+					obj['-moz-border-radius-bottomright'] = size;
+					obj['-webkit-border-bottom-right-radius'] = size;
+				break;
+				case 'left' :
+					obj['-moz-border-radius-topleft'] = size;
+					obj['-webkit-border-top-left-radius'] = size;
+					obj['-moz-border-radius-bottomleft'] = size;
+					obj['-webkit-border-bottom-left-radius'] = size;
+				break;
+				case 'top-right' :
+					obj['-moz-border-radius-topright'] = size;
+					obj['-webkit-border-top-right-radius'] = size;
+				break;
+				case 'top-left' :
+					obj['-moz-border-radius-topleft'] = size;
+					obj['-webkit-border-top-left-radius'] = size;
+				break;
+				case 'bottom-right' :
+					obj['-moz-border-radius-bottomright'] = size;
+					obj['-webkit-border-bottom-right-radius'] = size;
+				break;
+				case 'bottom-left' :
+					obj['-moz-border-radius-bottomleft'] = size;
+					obj['-webkit-border-bottom-left-radius'] = size;
+				break;
+			}
+		}
+		return obj;
+	} else {	// just regular border
+		return {
+			'-moz-border-radius': size,
+			'-webkit-border-radius': size,
+		}
+	}
+}
+
+
+(function($) {
+	$.fn.loading = function(params) {
+		if (params) { params = '<br />'+params; } else { params = ''; }
+		this.each(function() {
+			$(this).html('<div class="loading"><img src="images/loading.gif" alt="Loading" />'+params+'</div>');	
+		});
+
+		return this;
+	};
+
+	$.fn.transition = function(params) {
+		this.each(function() {
+			var random1 = 'temp'+(Math.round(Math.random()*100000));
+			var random2 = 'temp'+(Math.round(Math.random()*100000));
+			// wrap out content
+			$(this).html('<div id="'+random1+'">'+$(this).html()+'</div>');
+			$(this).append('<div id="'+random2+'">'+params+'</div>');
+			$(this).children('#'+random1).slideUp();
+			$(this).children('#'+random2).slideDown();
+		});
+		return this;
+	};		
+	$.toObj = function(str) {
+		obj = {};
+		str = str.substring(1,str.length-1).split(',');
+		for (var i in str) {
+			piece = str[i].split(':');
+			obj[piece[0]] = piece[1]
+		}
+			
+		return obj;
+	}
+})(jQuery);

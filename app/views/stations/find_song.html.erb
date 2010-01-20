@@ -1,0 +1,20 @@
+<%
+if params[:artist] && params[:track]
+%>{error:0}<%
+else
+%>
+
+<div id="add-song">
+	<h1>Add Song to <%= h @station.title %></h1>
+	<p>Type in a song or artist</p>
+	<form>
+		<input type="text" width="100%" id="search"/>
+		<div id="search-results">
+			hallo
+		</div>
+	</form>
+</div>
+<script type="text/javascript">
+	if (tuneful&&tuneful.station) { tuneful.station.addSong(); }
+</script>
+<% end %>

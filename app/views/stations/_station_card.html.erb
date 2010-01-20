@@ -5,13 +5,9 @@
 	<h3><a href="station/<%=h station_card.url %>"><%= h station_card.title %></a></h3>
 	<div class="image"><img src="<%=h station_card.image %>" height="340" /></div>
 	<ul class="tracks">
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
-		<li class="track"><a href="#">Hey Joe / Jimi Hendrix</a></li>
+		<% station_card.tracks.each do |t| %>
+			<li class="track"><a href="#"><%= t.title %> / <%= t.artist.title %></a></li>
+		<% end %>
 		<li class="track"><a href="#">More...</a></li>
 	</ul>
 	<div class="actions">

@@ -1,6 +1,8 @@
 class StationsController < ApplicationController
   #before_filter :require_user
-  
+  require 'youtube'
+
+
   def require_user
     redirect_to('/login')
     #  unless session[:user_id].blank?
@@ -10,8 +12,39 @@ class StationsController < ApplicationController
     #rescue ActiveRecord::RecordNotFound
   end
 
+
+  def find_song
+    @station = Station.find_by_url(params[:url])
+    # if we pass in parameters then we do one thing; otherwise the other
+    respond_to do |format|
+      format.html
+    end
+  end
+  
+  def add_song
+    @station = Station.find_by_url(params[:url])
+    if (! params[:track])
+      @error = 'You must provide a track'
+    elsif (! params[:artist])
+      @error = 'You must provide an artist'
+    else
+      a = Artist.new({:title=>params[:artist]})
+      a.save()
+      #t = a.tracks.new({:title=>params[:track]}).save()
+      @track = a.tracks.new({:title=>params[:track]})
+      @track.save();
+      @station.tracks.push(@track)
+      @error = 0
+    end
+    # if we pass in parameters then we do one thing; otherwise the other
+    respond_to do |format|
+      format.js  {render (:layout => false,:partial=>'add_song') }
+      format.html { redirect_to('/') }
+    end
+  end
   
   def index
+    videos = YouTube::Client.new.videos_by(:query => "penguin")
     
     @stations = Station.all
     respond_to do |format|

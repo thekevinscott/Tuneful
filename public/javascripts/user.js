@@ -25,7 +25,7 @@ $(function($){
 					hash = data.user.unique_hash;
 					parent.writeCookie('user.unique_hash',hash);
 					
-				} else { this.throwError('There was an error creating the user, there is no unique hash'); }
+				} //else { this.throwError('There was an error creating the user, there is no unique hash'); }
 			}});
 			
 		} else {

@@ -7,9 +7,11 @@
 		<div class="track-info">
 			<div class="track-info-sub">
 			<div class="track-info-wrapper" title="Jimi Hendrix / Your mom">
+				<div class="track-info-words">
 				<p id="track-title"></p> /
 				<p id="track-artist"></p> /
 				<p id="track-album"></p>
+				</div>
 			</div>
 
 			<div id="track-info-toggle"><a href="#" rel="closed">&raquo;</a></div>
@@ -25,6 +27,7 @@
 			<div id="radio-more">
 				<a href="#">More</a>
 				<div id="radio-more-menu">
+					<div id="radio-more-menu-wrapper">
 					Track
 					<ul>
 						<li><a href="#" id="track-buy-song"><img src="images/buy.png" alt="Buy" />Buy Song</a></li>
@@ -32,9 +35,16 @@
 					</ul>
 					Station
 					<ul>
-						<li><a href="#" id="radio-add-song"><img src="images/add.png" alt="Add Song" />Add song to Radio</a></li>
+						<li><a href="station/add_song" id="radio-add-song" class="lightbox"><img src="images/add.png" alt="Add Song" />Add song to Radio</a></li>
 						<li><a href="#" id="comment-station"><img src="images/comment.png" alt="Comment" />Comment on this Station</a></li>
 					</ul>
+					</div>
+					<div id="menu-buy-links">
+						<strong>Buy Links</strong><br />
+						<a href="#">iTunes</a><br />
+						<a href="#">Amazon</a><br />
+						<a href="#">Any where else?</a><br />
+					</div>
 				</div>
 			</div>
 			
@@ -52,7 +62,7 @@
 <script type="text/javascript">
 	tuneful.radio.connect(
 		{'playlist' : {'servertime': 123, 'tracks' : [{'id': 2, 'title': 'Hey Joe', 'artist':'Jimi Hendrix','album':'','url':'QLnKUiybiFo'}] },
-		 'station' : {'title': '60\'s Rock', 'url': 'werwrewrwr'} }
+		 'station' : {'title': '60\'s Rock', 'url': '60s_rock'} }
 	);
 	
 	
