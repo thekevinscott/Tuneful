@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100120181204) do
+ActiveRecord::Schema.define(:version => 20100120235422) do
 
   create_table "Stations", :force => true do |t|
     t.string   "title"
@@ -18,6 +18,8 @@ ActiveRecord::Schema.define(:version => 20100120181204) do
     t.datetime "updated_at"
     t.string   "image"
     t.string   "station_hash"
+    t.text     "playlist"
+    t.datetime "playlist_start"
   end
 
   create_table "Tracks", :force => true do |t|
@@ -27,8 +29,10 @@ ActiveRecord::Schema.define(:version => 20100120181204) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "file"
-    t.boolean  "verified",   :default => false
+    t.boolean  "verified",        :default => false
     t.integer  "duration"
+    t.integer  "vote",            :default => 0
+    t.integer  "number_of_votes", :default => 0
   end
 
   create_table "Users", :force => true do |t|
@@ -60,6 +64,14 @@ ActiveRecord::Schema.define(:version => 20100120181204) do
 
   create_table "stations_tracks", :id => false, :force => true do |t|
     t.integer  "track_id"
+    t.integer  "station_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "deleted",    :default => false
+  end
+
+  create_table "stations_users", :id => false, :force => true do |t|
+    t.integer  "user_id"
     t.integer  "station_id"
     t.datetime "created_at"
     t.datetime "updated_at"

@@ -9,6 +9,7 @@ $(function($){
 		station = null;
 		state = 'IDLE';
 		index = 0;
+		servertime = 0;
 		createSwf = function() {
 			if (! tuneful.addCallback({type:'youtube',arg:this.playerid,callback:this.swfCallback,obj:this}) ) { 
 				throwError('Error adding Youtube callback'); 
@@ -42,6 +43,7 @@ $(function($){
 		
 		
 		connect = function(options) {
+			//trace(options);
 			if (options) {
 				if (options.playlist && options.playlist.tracks) {
 					for (var i in options.playlist.tracks) { playlist.push(options.playlist.tracks[i]); }
@@ -49,6 +51,7 @@ $(function($){
 				
 				if (options.station && options.station.title && options.station.url) {
 					station = options.station; 
+					servertime = options.playlist.servertime;
 					/*
 					this.setupControls();
 					this.servertime = options.playlist.servertime;
@@ -79,12 +82,24 @@ $(function($){
 		};
 		
 		play = function() {
+			trace('-----------------');
+			trace('play');
+			trace('[play]playlist:');
+			trace(playlist);
 			// do we have a playlist?
 			index = 0;
 			if (playlist&&playlist.length>0) {
 				
 				if (state!='Playing') {	// start playing
 					start = playlist[index].start || 0;
+					trace('[play]current track');
+					trace(playlist[index]);
+					trace('the current track is :'+ playlist[index].title);
+					if (playlist[index+1]) {
+						trace('the next track is :'+playlist[index+1].title);
+					} else {
+						trace('there is no next track, well haver to go get it');
+					}
 					player.loadVideoById(playlist[index].file,start);
 					playlist[index].playing = true;
 
@@ -146,24 +161,32 @@ $(function($){
 				$('#track-info').show();
 				if (track.image) { $('#track-logo').css('background','url('+track.image+') no-repeat').html(''); }
 				else { this.playlist[index].writeWhenReady = true; }
-				console.log(track);
+				//console.log(track);
 				$('#track-title').html(track.title);
 				$('#track-artist').html(track.artist);
 				$('#track-album').html(track.album);
 				
 			}
 		};
-
 		
 		loadNext = function() {
+			trace('---------');
 			trace('load next');
 			file = window.location.pathname;
 			var self = this;
-			$.getJSON(file,{next:true},function(data){
-				index = self.playlist.push(data.tracks[0]) - 1;
-				trace(data);
-				trace(data.servertime);
-				trace('we should set the above, in radio js (line 90)');
+			$.getJSON('/station/'+station.url+'/playlist/next',{},function(data){
+				trace('[load next]playlist');
+				trace(playlist);
+				
+				track = data.playlist.tracks.pop();
+				trace('[load next]track');
+				trace(track);
+				trace(track.title);
+				playlist.push(track);
+				trace('[load next]playlist');
+				trace(playlist);
+				trace('the current track: '+playlist[0].title);
+				trace('the next track: '+playlist[1].title);
 				//this.servertime = data.servertime;
 				self.playlist[index].writeWhenReady = false;
 				self.getTrackInfo(index);
@@ -331,8 +354,6 @@ $(function($){
 			//updates : [],
 
 			onStateChange : function(state) {
-				//console.log('on state change');
-				
 				//Possible values are unstarted (-1), ended (0), playing (1), paused (2), buffering (3), video cued (5)
 				switch(state) {
 					case -1 : this.state = 'LOADING'; break;
@@ -347,6 +368,17 @@ $(function($){
 					if (this.listener) { this.play(); }
 					else { this.next(); }
 				}
+				if (state==3) {
+					//trace('**** BUFFERING ****');
+					stop_time = Date.now();
+					//trace(Date)
+				} else {
+					if (stop_time) { // catch up to where we were
+						//trace('now we should jump ahead, so were not behind');
+					}
+					
+					stop_time = null;
+				}
 				//console.log(this.state);
 			},
 
@@ -356,11 +388,13 @@ $(function($){
 
 			play : play,
 
-			next : function() {		
-				//this.playing = false;
-				radio.playlist.shift();
+			next : function() {	
+				trace('-----------------');
+				trace('next');	
+				
+				playlist.shift();
 				this.play();
-				if (! this.muted) {	$('#radio-state').html(this.state);	}
+				$('#radio-state').html(this.state);
 			},
 			update : function()
 			{

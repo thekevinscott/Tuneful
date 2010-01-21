@@ -147,6 +147,12 @@ class StationsController < ApplicationController
     format.html { redirect_to(@station) }
   end
   
+  def playlist
+    @playlist = Station.first.get_playlist
+    respond_to do |format|
+      format.html
+    end
+  end
   
   
 end
