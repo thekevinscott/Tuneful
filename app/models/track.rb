@@ -106,6 +106,20 @@ class Track
       
       return nil;     
     end
+    
+    # get length
+    
+    puts '********* [ getting duration of mp3 file ]'
+    d = `ffmpeg -i #{@localsource} 2>&1 | grep "Duration" | cut -d ' ' -f 4 | sed s/,//`
+    d = d.split(':')
+    duration = (d[0].to_i*60*60)+(d[1].to_i*60)+d[2].to_f
+    
+    puts '********* [ duration is '+duration.to_s+' ]'
+    puts track
+    puts artist
+    t = Track.first(:title=>track,:artist_id=>Artist.first(:title=>artist).id)
+    t.duration = duration
+        
 
     file = ((rand*10000000000000)+10000000000000).round.to_s+'.mov'
 
@@ -143,7 +157,7 @@ class Track
     self.cleanup(@localsource,@target)
     
     #t = Track.find(:first, :conditions => "title='"+track+"' AND artist_id=(SELECT id FROM artists WHERE title='"+artist+"') ")
-    t = Track.first(:title=>track,:artist_id=>Artist.first(:title=>artist).id)
+
     
     t.file = youtube_url
         
