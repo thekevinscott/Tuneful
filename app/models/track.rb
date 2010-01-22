@@ -1,6 +1,21 @@
-class Track < ActiveRecord::Base
+class Track
+  
+  include MongoMapper::Document
+  
+  key :title, String, :required => true
+  key :artist_id, ObjectId, :required => true
+  key :album, String
+  key :file, String
+  key :verified, Boolean, :default => 0
+  key :duration, Integer, :default => 0
+  key :vote, Integer, :default => 0
+  key :number_of_votes, Integer, :default => 0
+  key :votes, Array
+  key :start, Integer, :default => 0
+  
+  
   belongs_to :artist
-  has_and_belongs_to_many :stations
+  many :stations
   validates_uniqueness_of :title, :scope => :artist_id
 
   def set_frequency(min_vote,total_votes,plays_in_a_day,x_factor=100)
@@ -127,7 +142,9 @@ class Track < ActiveRecord::Base
 
     self.cleanup(@localsource,@target)
     
-    t = Track.find(:first, :conditions => "title='"+track+"' AND artist_id=(SELECT id FROM artists WHERE title='"+artist+"') ")
+    #t = Track.find(:first, :conditions => "title='"+track+"' AND artist_id=(SELECT id FROM artists WHERE title='"+artist+"') ")
+    t = Track.first(:title=>track,:artist_id=>Artist.first(:title=>artist).id)
+    
     t.file = youtube_url
         
     #puts '********* [ open up new youtube client ]'

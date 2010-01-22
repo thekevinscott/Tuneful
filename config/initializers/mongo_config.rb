@@ -1,0 +1,1 @@
+MongoMapper.database = "tuneful_#{Rails.env}"

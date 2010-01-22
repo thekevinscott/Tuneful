@@ -57,7 +57,6 @@ $(function($){
 							'time':Date.now()});
 					},5000); // 5 seconds to let it happen
 					
-					
 					$.post('station/'+station.url+'/add_song',{track:rel.track,artist:rel.artist},function(data){
 						clearTimeout(functionCount);
 						trace(data);
@@ -68,7 +67,7 @@ $(function($){
 								$.fn.fancybox.close();
 							},4000);*/
 						} else {
-							trace(throwError);				
+							trace(throwError);
 							throwError($('#add-song'),{
 								'problem':'data error',
 								'function':'search-results a click, post response',

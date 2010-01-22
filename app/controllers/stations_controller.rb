@@ -38,25 +38,33 @@ class StationsController < ApplicationController
         a = Artist.new({:title=>params[:artist]})
         a.save()
   	  end
+
       #t = a.tracks.new({:title=>params[:track]}).save()
       #@track = a.tracks.new({:title=>params[:track],:file=>@media_url,:duration=>@media.duration})
-      @track = a.tracks.new({:title=>params[:track]})
-      @track.save();
-      @station.tracks.push(@track)
+      track = Track.new({:title=>params[:track],:artist=>a})
+      #@track = a.tracks.new({:title=>params[:track]})
+      track.save();
+      @station.tracks.push(track)
       @error = 0
-      spawn do
-        Track.new.upload(params[:track],params[:artist])
-      end
+      puts '*****************'
+      puts '***** wes gonna spawn a process'
+      #spawn do
+        puts '*****************'
+        puts '***** spawn a process!'
+        track.upload(params[:track],params[:artist])
+      #end
+      puts '*****************'
+      puts '***** wes done spawned a process'
     end
-    @error = 1
     # if we pass in parameters then we do one thing; otherwise the other
     respond_to do |format|
-      format.js  {render (:layout => false,:partial=>'add_song') }
+      format.js  {render(:layout => false,:partial=>'add_song') }
       format.html { redirect_to('/') }
     end
   end
   
   def index
+    puts '********* stations *******'
     
     @stations = Station.all
     @playlist = Station.first.get_playlist
