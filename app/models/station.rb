@@ -25,7 +25,6 @@ class Station
   def get_playlist
     
     ###### things I still need to do
-    # uncomment self.playlist_start.to_i
     # figure out how to pass start time to object near the end
     
     
@@ -34,7 +33,7 @@ class Station
     @total_playlist_duration = @tracks.inject(0) { |result, element| result + element["duration"] } 
     #@total_playlist_duration = 60*60
 
-    #start = self.playlist_start.to_i
+    start = self.playlist_start.to_time.to_i
     start = Time.now.to_i - 100
     if Time.now.to_i > start + @total_playlist_duration # cycle through so we're *in* a playlist
       start += ((Time.now.to_i-Station.first.playlist_start.to_i) / @total_playlist_duration) * @total_playlist_duration # we have to floor it here
@@ -64,16 +63,22 @@ class Station
 
     #return self.playlist[current]
     #@playlist = []
+    start = 0
     @new_playlist = []
+
     for i in 0..ender
       id = self.tracks[current+i]
 
       if i == 1
-        @start = Time.zone.now.to_i - running_duration
+        start = Time.zone.now.to_i - running_duration
       else
-        @start = 0
+        start = 0
       end
+
       @new_playlist.push(id)
+      #return @start
+      @new_playlist.last.start = start
+      #return @new_playlist
       #@new_playlist.last['start'] = @start
     end
     

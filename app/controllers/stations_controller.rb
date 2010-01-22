@@ -48,7 +48,7 @@ class StationsController < ApplicationController
       @error = 0
       puts '*****************'
       puts '***** wes gonna spawn a process'
-      #spawn do
+      #spawn do # SPAWN DOES NOT WORK WITH MONGO
         puts '*****************'
         puts '***** spawn a process!'
         track.upload(params[:track],params[:artist])
