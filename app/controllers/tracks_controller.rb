@@ -33,14 +33,11 @@ class TracksController < ApplicationController
 
     file = (rand*100000000).round.to_s+'.mov'
 
-    #@target = File.join(File.dirname(source.path), "#{file}")
-    #File.open(@target, 'w')
-
     @target = 'files/' + file
     
     @source = 'files/' + @source.split('/').pop
     
-    command = 'ffmpeg -i '+@source+' -ar 44100 -f image2 -i files/brooklynLabel.jpg -ab 512 -r 15 -b 10 -s 640x480 -vcodec mpeg4 '+@target
+    command = 'ffmpeg -i '+@source+' -ar 44100 -f image2 -i files/tuneful.jpg -loop_input -shortest -ab 512 -r 1 -b 100 -s 320x240 '+@target
     puts command
     #command.gsub!(/\s+/, " ")
     
