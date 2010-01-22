@@ -100,7 +100,9 @@ class Station
       @avg_duration = 0
 
 
-      self.tracks.each do |t|
+      tracks = self.tracks.all(:duration => { '$gt' => 0 })
+
+      tracks.each do |t|
 
         if t.vote < (self.subscribers * 1)
           #t.deleted = true
@@ -128,7 +130,7 @@ class Station
 
 
 
-      @avg_duration = @avg_duration / self.tracks.length
+      @avg_duration = @avg_duration / tracks.length
 
       
 
@@ -139,10 +141,10 @@ class Station
       #return x
 
       x = 100 
-      @total_vote_num += (x*self.tracks.length)
+      @total_vote_num += (x*tracks.length)
       #@tracks = 
      
-      self.tracks.each do |t| # increase all tracks votes by the lowest rated song
+      tracks.each do |t| # increase all tracks votes by the lowest rated song
 	      t.set_frequency(min_vote,@total_vote_num,@plays_in_a_day,x)
         #{:id=>t.id,:freq=>((t.vote + min_vote + x + 0.0) / @total_vote_num * @plays_in_a_day).round,:duration=>t.duration}
         #{:id=>t.id,:freq=>((t.vote + min_vote + x + 0.0))}
@@ -150,12 +152,12 @@ class Station
       
       # then we sort the tracks, by frequency, ascending
       #@tracks = @tracks.sort_by {|t| t[:freq] }
-      self.tracks.sort_by {|t| t.frequency }
+      tracks.sort_by {|t| t.frequency }
       
 
       old_arr = []
             
-      self.tracks.each do |t| 
+      tracks.each do |t| 
       
         
         arr = []
