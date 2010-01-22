@@ -30,20 +30,25 @@ class StationsController < ApplicationController
     elsif (! params[:artist])
       @error = 'You must provide an artist'
     else
-  		client = YouTubeG::Client.new
-  		@media = client.videos_by(:query => params[:track]+' '+params[:artist]).videos[0].media_content[0]
-    	@media_url = @media.url.split('?').shift.split('/').pop
+  		#client = YouTubeG::Client.new
+  		#@media = client.videos_by(:query => params[:track]+' '+params[:artist]).videos[0].media_content[0]
+    	#@media_url = @media.url.split('?').shift.split('/').pop
     	a = Artist.find_by_title(params[:artist])
     	if a.nil?
         a = Artist.new({:title=>params[:artist]})
         a.save()
   	  end
       #t = a.tracks.new({:title=>params[:track]}).save()
-      @track = a.tracks.new({:title=>params[:track],:file=>@media_url,:duration=>@media.duration})
+      #@track = a.tracks.new({:title=>params[:track],:file=>@media_url,:duration=>@media.duration})
+      @track = a.tracks.new({:title=>params[:track]})
       @track.save();
       @station.tracks.push(@track)
       @error = 0
+      spawn do
+        Track.new.upload(params[:track],params[:artist])
+      end
     end
+    @error = 1
     # if we pass in parameters then we do one thing; otherwise the other
     respond_to do |format|
       format.js  {render (:layout => false,:partial=>'add_song') }

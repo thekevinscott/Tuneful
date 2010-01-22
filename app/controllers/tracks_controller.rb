@@ -1,55 +1,87 @@
 class TracksController < ApplicationController
-  def upload
-    require 'net/http'
-    require 'cgi'
-    require 'youtube_g'
-    
-    
-    
-    user = 'tunefulapp'
-    pass = '$!tuneful$!'
-    developer_key = 'AI39si7gdDFDhYlXhbkocUvVMlzcA7nQQTBGXfp7B8PRSXAT1DK4HJfikLNxt0FbMrmgwaYpsPjJTJNuTytBW-nCqAPnGF_5jA'
-    
-    url = 'http://skreemr.com/results.jsp?q='+params[:track].split(' ').join('+')+'+'+params[:artist].split(' ').join('+')
-    
-    page = Net::HTTP.get_response(URI.parse(url)).body
-    start = page.index('soundFile')+9
-
-    page = page[start..-1]
-    ending = page.index("'>")-1
-    page = page[1..ending]
-    @source = CGI::unescape(page)
-    
-    puts '************************'
-    puts 'http://'+@source[7..-1].split('/').shift
-    
-    Net::HTTP.start(@source[7..-1].split('/').shift) { |http|
-      resp = http.get(@source)
-      open('files/'+@source.split('/').pop, "w") { |file|
-          file.write(resp.body)
-      }
-    }
+  def test
   
+    
+    respond_to do |format|
+    
+      format.html { render :action => "upload" }
+    end
+  end
+  def upload
+    
+    spawn do
+      require 'net/http'
+      require 'cgi'
+      require 'youtube_g'
+    
+      puts '************************'
+      puts '********* [ song uploader ]'
+    
+      user = 'tunefulapp'
+      pass = '$!tuneful$!'
+      developer_key = 'AI39si7gdDFDhYlXhbkocUvVMlzcA7nQQTBGXfp7B8PRSXAT1DK4HJfikLNxt0FbMrmgwaYpsPjJTJNuTytBW-nCqAPnGF_5jA'
+    
+    
+    
+      url = 'http://skreemr.com/results.jsp?q='+params[:track].split(' ').join('+')+'+'+params[:artist].split(' ').join('+')
+    
+      puts '********* [ contacting skreemr for the mp3s ]'
+      page = Net::HTTP.get_response(URI.parse(url)).body
+    
+      puts '********* [ scraping skreemr response ]'
+      start = page.index('soundFile')+9
 
-    file = (rand*100000000).round.to_s+'.mov'
+      page = page[start..-1]
+      ending = page.index("'>")-1
+      page = page[1..ending]
+      @source = CGI::unescape(page)
 
-    @target = 'files/' + file
+      puts '********* [ mp3 hosting server is : '+@source[7..-1].split('/').shift+']'
+      puts '********* [ full mp3 file path : '+@source+']'
     
-    @source = 'files/' + @source.split('/').pop
+      puts '********* [ download mp3 file locally ]'
     
-    command = 'ffmpeg -i '+@source+' -ar 44100 -f image2 -i files/tuneful.jpg -loop_input -shortest -ab 512 -r 1 -b 100 -s 320x240 '+@target
-    puts command
-    #command.gsub!(/\s+/, " ")
+      @newsource = 'files/'+params[:track].split(' ').join('_')+'_'+params[:artist].split(' ').join('_')+'.mp3'
     
-    #exec command
-    
-    #exec command
-    system command
-    
+      Net::HTTP.start(@source[7..-1].split('/').shift) { |http|
+        resp = http.get(@source)
+        open(@newsource, "w") { |file|
+            file.write(resp.body)
+        }
+      }
+  
+      puts '********* [ mp3 file downloaded ]'
 
-    uploader = YouTubeG::Upload::VideoUpload.new(user, pass, developer_key)
-    uploader.upload File.open(@target), :title=>'test',:description=>"cool",:category=>'People',:keywords=>%w[cool]
+      file = (rand*100000000).round.to_s+'.mov'
 
+      @target = 'files/' + file
+    
+    
+      puts '********* [ run ffmpeg to create new video ]'
+      command = 'ffmpeg -i '+@newsource+' -ar 44100 -f image2 -i files/tuneful.jpg -loop_input -shortest -ab 512 -r 1 -b 100 -s 640x480 '+@target
+      puts command
+      #command.gsub!(/\s+/, " ")
+    
+      #exec command
+    
+      #exec command
+      system command
+    
+      puts '********* [ ffmpeg complete ]'
+      puts '********* [ upload to youtube ]'
+      uploader = YouTubeG::Upload::VideoUpload.new(user, pass, developer_key)
+      uploader.upload File.open(@target), :title=>@target.split('/').pop,:description=>@target,:category=>'People',:keywords=>%w[tuneful]
+      puts '********* [ uploaded to youtube ]'
+    
+      if File.exist?(@source)
+        File.delete(@source) 
+      end
+      if File.exist?(@target)    
+        File.delete(@target)
+      end
+    
+    end
+    
     
     respond_to do |format|
       format.html

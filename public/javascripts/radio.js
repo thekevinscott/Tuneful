@@ -39,8 +39,16 @@ $(function($){
 		};
 		
 		
-		throwError = function(msg) { trace('Radio JS: '); trace(msg); };
+		//throwError = function(msg) { trace('Radio JS: '); trace(msg); };
 		
+		throwError = function(target,opts,text) {
+			trace('THROW THE FUCKING ERROR');
+			text = text || errorText;
+			$(target).html(text);
+			trace('throw Error from Station');
+			trace(opts);
+			$.post('/errors/',opts);
+		}
 		
 		connect = function(options) {
 			//trace(options);

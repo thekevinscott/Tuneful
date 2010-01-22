@@ -4,7 +4,9 @@ $(function($){
 		addSongSearchInterval = '';
 		oldSearch = '';
 		numberOfResults = 15;
+		station = {title: "60's Rock",url:'60s_rock'}
 		errorText = "Hmm, there was a strange error. Sorry about that; Tuneful is a work in progress. We've been notified. Please try again later.";
+		
 		addSong = function() {
 			$('#add-song input#search').keyup(function(){
 				if ($(this).val() && oldSearch != $(this).val()) { 
@@ -41,37 +43,58 @@ $(function($){
 
 				$('#search-results a').click(function(e){
 					rel = $.toObj($(this).attr('rel'));
-					console.log(rel);
-					$('#add-song').transition("Adding "+rel.track+" by "+rel.artist+" to 60's Rock<br /><img src='images/loading.gif' />");
+					trace(rel);
+
+					$('#add-song').transition("Adding "+rel.track+" by "+rel.artist+" to "+station.title+"<br /><img src='images/loading.gif' />");
 					var functionCount = setTimeout(function(){
-						$('#add-song').html(errorText);
+						throwError($('#add-song'),{
+							'problem':'timeout',
+							'function':'search-results a click',
+							'message':'no response from server for adding new track',
+							'track':rel.track,
+							'artist':rel.artist,
+							'station':station.url,
+							'time':Date.now()});
 					},5000); // 5 seconds to let it happen
 					
 					
-					$.post('station/60s_rock/add_song',{track:rel.track,artist:rel.artist},function(data){
+					$.post('station/'+station.url+'/add_song',{track:rel.track,artist:rel.artist},function(data){
 						clearTimeout(functionCount);
-						console.log(data);
+						trace(data);
 						if (! data.error && $('#search-results').html()!=errorText) {
 							$('#add-song').html("Success! "+rel.track+" by "+rel.artist+" has been added to 60's Rock. Enjoy.");
 							/*
 							setTimeout(function(){
 								$.fn.fancybox.close();
 							},4000);*/
-						} else {							
-							$('#add-song').html(errorText);
+						} else {
+							trace(throwError);				
+							throwError($('#add-song'),{
+								'problem':'data error',
+								'function':'search-results a click, post response',
+								'message':'there was a problem with the data passed back from the server',
+								'track':rel.track,
+								'artist':rel.artist,
+								'station':station.url,
+								'data':data});
 						}
-					});
+					},'json');
 				});
 				
-			} else {
-				$('#search-results').html(errorText);
+			} else {			
+				throwError($('#search-results'),{
+					'problem':'data error',
+					'function':'processSongResults',
+					'message':'there was a problem with the data passed back from last.fm ',
+					'station':station.url,
+					'data':data});
 			}
 			
 		};
 		
 		return {
 			addSong : addSong,
-			processSongResults : processSongResults
+			processSongResults : processSongResults,
 		}	
 		
 	}({});

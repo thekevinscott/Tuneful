@@ -2,6 +2,7 @@ ActionController::Routing::Routes.draw do |map|
   
   map.resources :users
   map.resources :tracks
+  map.resources :errors
   map.resources :stations
   map.resources :interested_parties
   
@@ -16,6 +17,7 @@ ActionController::Routing::Routes.draw do |map|
   map.connect 'station/:url/:action/:id', :controller => 'stations', :action => 'show'
 
   map.connect 'tracks/upload/:artist/:track', :controller => 'tracks', :action => 'upload'
+  map.connect 'tracks/test', :controller => 'tracks', :action => 'test'
 
 
   map.connect ':controller/:action/'
