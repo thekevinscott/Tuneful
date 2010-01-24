@@ -17,6 +17,6 @@ Rails::Initializer.run do |config|
   
 end
 
-MongoMapper.connection = Mongo::Connection.new('db.mongohq.com', 27017, :auto_reconnect => true) 
+MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27017, :auto_reconnect => true) 
 MongoMapper.database = "tuneful_#{Rails.env}"
-MongoMapper.database.authenticate('thekevinscott', 'tuneful1Fp3v')
+MongoMapper.database.authenticate('tuneful', 'tuning_forks444')
