@@ -1,6 +1,8 @@
 class Artist
   include MongoMapper::Document
   
+  
+  
   key :title, String, :required => true
   key :tracks, Array, :required => true
   
