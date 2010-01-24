@@ -15,3 +15,7 @@ config.action_controller.perform_caching             = false
 
 # Don't care if the mailer can't send
 config.action_mailer.raise_delivery_errors = false
+
+#MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27017) 
+MongoMapper.database = "tuneful_#{Rails.env}"
+#MongoMapper.database.authenticate('tuneful', 'tuning_forks444')
