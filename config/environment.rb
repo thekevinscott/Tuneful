@@ -28,3 +28,7 @@ MongoMapper.database = config['database']
 if config['username'].present?
   MongoMapper.database.authenticate(config['username'], config['password'])
 end
+
+#MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27021)
+#MongoMapper.database = 'tuneful_production'
+#MongoMapper.database.authenticate('username', 'password')

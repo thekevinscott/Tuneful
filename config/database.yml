@@ -34,6 +34,9 @@ test:
 
 production:
   adapter: mongo
+  host: genesis.mongohq.com
+  port: 27021
   database: tuneful_production
-  username: thekevinscott
-  password: tuneful1Fp3v
+  username: tuneful
+  password: tuning_forks444
+
