@@ -54,6 +54,8 @@ class Track
     require 'cgi'
     require 'youtube_g'
   
+    writefolder = "#{RAILS_ROOT}/tmp/myfile_#{Process.pid}/"
+  
     puts '************************'
     puts '********* [ song uploader ]'
   
@@ -88,7 +90,7 @@ class Track
 
     puts '********* [ download mp3 file locally ]'
 
-    @localsource = 'files/'+track.split(' ').join('_')+'_'+artist.split(' ').join('_')+'.mp3'
+    @localsource = writefolder+track.split(' ').join('_')+'_'+artist.split(' ').join('_')+'.mp3'
 
     Net::HTTP.start(@source[7..-1].split('/').shift) { |http|
       resp = http.get(@source)
@@ -123,11 +125,11 @@ class Track
 
     file = ((rand*10000000000000)+10000000000000).round.to_s+'.mov'
 
-    @target = 'files/' + file
+    @target = writefolder + file
 
 
     puts '********* [ run ffmpeg to create new video ]'
-    command = 'ffmpeg -i '+@localsource+' -ar 44100 -f image2 -i files/tuneful.jpg -loop_input -shortest -ab 512 -r 1 -b 100 -s 640x480 '+@target
+    command = 'ffmpeg -i '+@localsource+' -ar 44100 -f image2 -i '+writefolder+'/tuneful.jpg -loop_input -shortest -ab 512 -r 1 -b 100 -s 640x480 '+@target
     puts command
     #command.gsub!(/\s+/, " ")
 
