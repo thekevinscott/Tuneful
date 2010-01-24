@@ -31,7 +31,3 @@ config.action_controller.perform_caching             = false
 
 # Enable threaded mode
 # config.threadsafe!
-
-MongoMapper.connection = Mongo::Connection.new('db.mongohq.com', 27017) 
-MongoMapper.database = "tuneful_#{Rails.env}"
-MongoMapper.database.authenticate('tuneful', 'tuning_forks444')
