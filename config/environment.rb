@@ -18,17 +18,17 @@ Rails::Initializer.run do |config|
 end
 
 
-config = YAML.load_file(Rails.root + 'config' + 'database.yml')[Rails.env]
+#config = YAML.load_file(Rails.root + 'config' + 'database.yml')[Rails.env]
  
-MongoMapper.connection = Mongo::Connection.new(config['host'], config['port'], {
-  :logger         => Rails.logger
-})
+#MongoMapper.connection = Mongo::Connection.new(config['host'], config['port'], {
+#  :logger         => Rails.logger
+#})
  
-MongoMapper.database = config['database']
-if config['username'].present?
-  MongoMapper.database.authenticate(config['username'], config['password'])
-end
+#MongoMapper.database = config['database']
+#if config['username'].present?
+#  MongoMapper.database.authenticate(config['username'], config['password'])
+#end
 
-#MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27021)
-#MongoMapper.database = 'tuneful_production'
-#MongoMapper.database.authenticate('username', 'password')
+MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27021)
+MongoMapper.database = 'tuneful_production'
+MongoMapper.database.authenticate('tuneful', 'tuning_forks444')
