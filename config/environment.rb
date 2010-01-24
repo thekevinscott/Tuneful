@@ -21,7 +21,6 @@ end
 config = YAML.load_file(Rails.root + 'config' + 'database.yml')[Rails.env]
  
 MongoMapper.connection = Mongo::Connection.new(config['host'], config['port'], {
-  :auto_reconnect => true,
   :logger         => Rails.logger
 })
  
