@@ -23,8 +23,6 @@ Rails::Initializer.run do |config|
   #config.gem gemcutter
   #config.gem mongo
   #config.gem mongo_ext
-  config.gem "mongo_mapper"
-  config.gem "youtube-g"  
 
   # Only load the plugins named here, in the order given (default is alphabetical).
   # :all can be used as a placeholder for all plugins not explicitly named
