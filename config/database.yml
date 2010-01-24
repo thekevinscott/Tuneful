@@ -32,7 +32,7 @@ test:
     adapter: mongo
     database: tuneful_test
 
-production:
+production:  
   adapter: mongo
   host: genesis.mongohq.com
   port: 27021
@@ -40,3 +40,7 @@ production:
   username: tuneful
   password: tuning_forks444
 
+
+#  MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27021)
+#  MongoMapper.database = 'tuneful_production'
+#  MongoMapper.database.authenticate('tuneful', 'tuning_forks444')
