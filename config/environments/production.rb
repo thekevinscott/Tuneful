@@ -33,3 +33,7 @@ config.action_controller.perform_caching             = false
 # config.threadsafe!
 
 
+
+MongoMapper.connection = Mongo::Connection.new('genesis.mongohq.com', 27021)
+MongoMapper.database = 'tuneful_production'
+MongoMapper.database.authenticate('tuneful', 'tuning_forks444')

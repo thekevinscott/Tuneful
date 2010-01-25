@@ -67,7 +67,8 @@ class Station
     @new_playlist = []
 
     for i in 0..ender
-      id = self.tracks[current+i]
+      id = self.playlist[current+i]
+      t = Track.find(id['id'])
 
       if i == 1
         start = Time.zone.now.to_i - running_duration
@@ -75,9 +76,11 @@ class Station
         start = 0
       end
 
-      @new_playlist.push(id)
+      t.start = start
+
+      @new_playlist.push(t)
+
       #return @start
-      #@new_playlist.last.start = start
       #return @new_playlist
       #@new_playlist.last['start'] = @start
     end
