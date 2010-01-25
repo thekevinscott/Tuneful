@@ -77,7 +77,7 @@ class Station
 
       @new_playlist.push(id)
       #return @start
-      @new_playlist.last.start = start
+      #@new_playlist.last.start = start
       #return @new_playlist
       #@new_playlist.last['start'] = @start
     end
