@@ -1,0 +1,21 @@
+<h1>Invites</h1>
+<table border="1">
+	<thead><tr><th>Email</th><th>Inviter</th><th>Invited</th></tr></thead>
+<% @invites.each do |i| %>
+	<tr id="tr-<%=i.id.to_s%>"><td><%=i.email%></td><td><%=i.user.name%></td><td class="invited"><% if i.invited.nil? %><input type="submit" value="Invite" /><% else %><%=i.invited.to_s%><% end %></td></tr>
+<% end %>
+</table>
+<script type="text/javascript">
+$('input').click(function(e){
+	tr = $(this).parent().parent();
+	
+	invite_id = tr.attr('id').split('-').pop();
+	$.post('/admin/invites',{invite_id:invite_id},function(data){
+		if (data.error==0) {	
+			$('tr#tr-'+invite_id+' .invited').html(data.invited);
+		} else {
+			alert("There was a weird bug. Dunno what it was.");
+		}
+	},'json');
+});
+</script>

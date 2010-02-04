@@ -55,11 +55,12 @@ $(function($){
 			if (options) {
 				if (options.playlist && options.playlist.tracks) {
 					for (var i in options.playlist.tracks) { playlist.push(options.playlist.tracks[i]); }
+					
+					servertime = options.playlist.servertime;
 				} else { this.throwError('No playlist provided.'); }
 				
 				if (options.station && options.station.title && options.station.url) {
 					station = options.station; 
-					servertime = options.playlist.servertime;
 					/*
 					this.setupControls();
 					this.servertime = options.playlist.servertime;
@@ -83,6 +84,7 @@ $(function($){
 				}
 				
 				if ($('#radio-add-song').length>0) {
+					trace(station);
 					$('#radio-add-song').attr('href','station/'+station.url+'/find_song');
 				}
 				
@@ -108,7 +110,7 @@ $(function($){
 					} else {
 						trace('there is no next track, well haver to go get it');
 					}
-					player.loadVideoById(playlist[index].file,start);
+					//player.loadVideoById(playlist[index].file,start);
 					playlist[index].playing = true;
 
 					getTrackInfo(index);	

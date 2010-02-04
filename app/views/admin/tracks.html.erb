@@ -1,3 +1,5 @@
+<p>Next Cron job: when???</p>
+<a href="#" id="cron">Manually run cron job</a>
 <h1>Unverified Tracks</h1>
 <table border="1">
 <thead><tr><th>&nbsp;</td><td>Title</td><td>Link</td><td>Duration</td><td>Verify</td><td>Edit</td></tr></thead>
@@ -11,7 +13,11 @@
 </tbody>
 </table>
 <script type="text/javascript">
-
+$('#cron').click(function(e){
+	e.preventDefault();
+	$.get('/admin/tracks/update_all');
+});
+/*
 $('input:checkbox').click(function(){
 	$(this).parent().parent().css({background:'yellow'});
 	
@@ -36,4 +42,5 @@ $('input.update').click(function(e){
 		}
 	});
 });
+*/
 </script>

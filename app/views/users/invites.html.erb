@@ -1,0 +1,36 @@
+<% if @invites > 0 %>
+
+<%= javascript_include_tag 'users/invites' %>
+<script type="text/javascript" src="/javascripts/invites.js"></script>
+
+<div id="invites">
+<p id="invite-header"><span>You've got <%= @invites %> invites left.</span> Put in email addresses below!</p>
+
+
+<form>
+	<div id="wrapper">
+		<div id="invite-collection">
+			<div class="an-invite"><label>Invite #1: </label><input type="text" /></div>
+		</div>
+		<% if @invites > 1 %>
+		<a href="#" id="add-more"><img src="/images/add.png" alt="Add" /> <span id="number-left">You've got <%= @invites - 1 %> more invites</span></a> 
+		<% end %>
+
+	</div>
+	
+	<input id="submit" type="submit" value="Invite them!" />
+</form>
+</div>
+
+<script type="text/javascript">
+	$(document).ready(function(){	
+		if (typeof(tuneful.user.invites)!='undefined') {
+			tuneful.user.invites.setInvites(<%=@invites%>);
+		} else {
+			trace('wait');
+		}
+	});
+</script>
+<% else %>
+<p>You've got no more invites left. Sorry! Come back later when there's more.</p>
+<% end %>

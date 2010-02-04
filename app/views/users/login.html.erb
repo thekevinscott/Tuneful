@@ -4,19 +4,34 @@
 	
 	<p>Tuneful is a collaborative radio station, built from the ground up to harness the collective intelligence of the crowd. <%= link_to 'More info', '#', :class => 'lightbox' %></p>
 		<hr />
-	<div class="invite-codes">
+	<div id="invite-codes" class="invite-codes">
 	<p>Tuneful is currently invite only. If you would like an invite code, please leave your email address, and we'll add you to the list! New invites are sent out periodically.</p>
 
-	<% form_for(@InterestedParty) do |f| %>
-	    <%= f.text_field :email %>
-	    <%= f.submit 'Submit' %>
-	<% end %>
+	<form>
+		<input type="text" name="email" id="email" /><input type="submit" value="Submit" />
+	</form>
+	
+	<script type="text/javascript">
+	$('form').submit(function(e){
+		e.preventDefault();
+		
+		$.post('users/save_email',{email:$(this).find('input#email').val()},function(data){
+			if (! data.error) {
+				$('#invite-codes').html("Thank you! Your email has been saved. We'll contact you as soon as we have new invitations to give out.");
+			} else {
+				$('#invite-codes').html("Sorry, there was an error saving your email. We've been notified; in the meantime, feel free to drop us a line at invite@tuneful.org");
+			}
+		},'json');
+	});
+	</script>
 	</div>
 		<hr />
 	<div id="login">
 		<br />
 	<strong>If you are currently a member, please login below.</strong>
 	<br /><br />
+	
+	
 	<% form_for(@user) do |f| %>
 
 	  <p>
@@ -27,7 +42,7 @@
 
 	  <p>
 	    <%= f.label :password %>
-	    <%= f.text_field :password %>
+	    <%= f.password_field :password %>
 	  </p>
 	
 	<div class="clear"></div>
@@ -39,5 +54,5 @@
 </div>
 <div id="footer">
 	<p class="right">There could be a logo here.</p>
-	<p>Tuneful... is your father</p>
+	<p><%= @funny %></p>
 </div>

@@ -12,6 +12,8 @@ ActionController::Routing::Routes.draw do |map|
   
   map.login '/login', :controller => 'users', :action => 'login'
   map.register '/register', :controller => 'users', :action => 'register'
+  map.logout '/logout', :controller => 'users', :action => 'logout'
+  map.invites '/invites', :controller => 'users', :action => 'invites'
   
   map.connect 'station/:url/:action', :controller => 'stations', :action => 'show'
   map.connect 'station/:url/:action/:id', :controller => 'stations', :action => 'show'

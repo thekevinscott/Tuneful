@@ -30,66 +30,72 @@ class Station
     
     #@tracks = JSON.parse self.playlist
     @tracks = self.playlist
-    @total_playlist_duration = @tracks.inject(0) { |result, element| result + element["duration"] } 
-    #@total_playlist_duration = 60*60
+    if self.tracks.length > 0 && ! self.playlist.empty?
 
-    start = self.playlist_start.to_time.to_i
-    start = Time.now.to_i - 100
-    if Time.now.to_i > start + @total_playlist_duration # cycle through so we're *in* a playlist
-      start += ((Time.now.to_i-Station.first.playlist_start.to_i) / @total_playlist_duration) * @total_playlist_duration # we have to floor it here
-    end
+      @total_playlist_duration = @tracks.inject(0) { |result, element| result + element["duration"] } 
+      #@total_playlist_duration = 60*60
     
 
-    time_to_jump = Time.now.to_i - start
-    
-    running_duration = start
-    current = nil
-    last_duration = 0
-    #return @tracks
-    self.tracks.each_with_index do |p, index|
-      if running_duration < Time.now.to_i
-        current = index
-        running_duration += p['duration']
-        last_duration = p['duration']
+      start = self.playlist_start.to_time.to_i
+
+      start = Time.now.to_i - 100
+      if Time.now.to_i > start + @total_playlist_duration # cycle through so we're *in* a playlist
+        start += ((Time.now.to_i-Station.first.playlist_start.to_i) / @total_playlist_duration) * @total_playlist_duration # we have to floor it here
       end
-    end
-    running_duration -= last_duration
+    
 
-    if current >= self.tracks.length
-      ender = 1
-    else
-      ender = 2
-    end
+      time_to_jump = Time.now.to_i - start
+    
+      running_duration = start
+      current = nil
+      last_duration = 0
+      #return @tracks
+      self.tracks.each_with_index do |p, index|
+        if running_duration < Time.now.to_i
+          current = index
+          running_duration += p['duration']
+          last_duration = p['duration']
+        end
+      end
+      running_duration -= last_duration
 
-    #return self.playlist[current]
-    #@playlist = []
-    start = 0
-    @new_playlist = []
-
-    for i in 0..ender
-      id = self.playlist[current+i]
-      t = Track.find(id['id'])
-
-      if i == 1
-        start = Time.zone.now.to_i - running_duration
+      if current >= self.tracks.length
+        ender = 1
       else
-        start = 0
+        ender = 2
       end
 
-      t.start = start
+      #return self.playlist[current]
+      #@playlist = []
+      start = 0
+      @new_playlist = []
 
-      @new_playlist.push(t)
+      for i in 0..ender
+        id = self.playlist[current+i]
+        t = Track.find(id['id'])
 
-      #return @start
-      #return @new_playlist
-      #@new_playlist.last['start'] = @start
+        if i == 1
+          start = Time.zone.now.to_i - running_duration
+        else
+          start = 0
+        end
+
+        t.start = start
+
+        @new_playlist.push(t)
+
+        #return @start
+        #return @new_playlist
+        #@new_playlist.last['start'] = @start
+      end
+    
+      @station = {:title=>self.title,:url=>self.url}
+    
+      return {:station=>@station,:playlist=>{:servertime=>Time.zone.now.to_i,:tracks=>@new_playlist}}
+    
+    else 
+      return {:station=>{:title=>self.title,:url=>self.url}}
     end
-    
-    @station = {:title=>self.title,:url=>self.url}
-    
-    return {:station=>@station,:playlist=>{:servertime=>Time.zone.now.to_i,:tracks=>@new_playlist}}
-    
-    
   end
   
   def generate_playlist

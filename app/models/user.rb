@@ -1,37 +1,68 @@
 require 'digest/sha1'
 
-class User < ActiveRecord::Base
-  has_and_belongs_to_many :stations
-  validates_length_of :name, :within => 3..40
-  validates_length_of :password, :within => 5..40
+class User
+
+  include MongoMapper::Document
+  
+  
+  
+  key :name, String
+  key :password, String
+  key :salt, String
+  key :email, String
+  key :invites_left, Integer, :default => 3
+  key :notifications, Object
+  key :unique_hash, String, :required => true
+  
+  
+  
+  
+  many :stations
+  many :invites
+  #validates_length_of :name, :within => 3..40
+  #validates_length_of :password, :within => 5..40
   #validates_presence_of :name, :email, :password, :password_confirmation, :salt
   #validates_uniqueness_of :hashed_password
-  validates_confirmation_of :password
-  validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email"  
+  #validates_confirmation_of :password
+  #validates_format_of :email, :with => /^([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})$/i, :message => "Invalid email"  
 
-  attr_protected :id, :salt
+  #attr_protected :id, :salt
 
-  attr_accessor :password, :password_confirmation
+  #attr_accessor :password, :password_confirmation
 
   def initialize(params = nil) 
-     super(params) 
-     self.unique_hash = User.random_string(32)
-     self.hashed_password = User.random_string(32)
      
-     self.save()
+     self.unique_hash = User.random_string(3)
+     self.salt = User.random_string(3)
+     
+     super(params) 
+     #@password = User.encrypt(self.password,self.salt)
+     
+     #self.password = self.write_password(params[:password])
+     
+     
+     #self.save()
    end
 
   def self.authenticate(name, pass)
-    u=find(:first, :conditions=>["name = ?", name])
+    u=first(:conditions=>{'name'=>name})
+    
+    #u=find(:first, :conditions=>["name = ?", name])
     return nil if u.nil?
-    return u if User.encrypt(pass, u.salt)==u.hashed_password
+    #return u if User.encrypt(pass, u.salt)==u.password
+    return u if pass==u.password
     nil
   end  
 
   def password=(pass)
-    @password=pass
-    self.salt = User.random_string(10) if !self.salt?
-    self.hashed_password = User.encrypt(@password, self.salt)
+    #@password = pass
+    puts '*************'
+    @password = User.encrypt(pass,self.salt)
+    @password = pass
+    puts 'in password'
+    puts @password
+    puts '*************'
+    #@password = pass
   end
   
   
@@ -52,8 +83,11 @@ class User < ActiveRecord::Base
 
   protected
 
-  def self.encrypt(pass, salt)
-    Digest::SHA1.hexdigest(pass+salt)
+  def self.encrypt(pass,salt)
+    #puts self.salt
+    
+    pass+'999'+salt
+    #Digest::SHA1.hexdigest(pass+'f9j3ah83hdks93jsha9sh3kfhs'+salt)
   end
 
   def self.random_string(len)

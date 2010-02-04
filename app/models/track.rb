@@ -6,12 +6,14 @@ class Track
   key :artist_id, ObjectId, :required => true
   key :album, String
   key :file, String
-  key :verified, Boolean, :default => 0
+  key :verified, Boolean, :default => false
+  key :youtubed, Boolean, :default => false
   key :duration, Integer, :default => 0
   key :vote, Integer, :default => 0
   key :number_of_votes, Integer, :default => 0
   key :votes, Array
   key :start, Integer, :default => 0
+  key :errors, String
   
   
   belongs_to :artist
@@ -48,13 +50,15 @@ class Track
     end
   end
   
-  def upload(track, artist)
+  
+  
+  def upload
     require 'rubygems'      
     require 'net/http'
     require 'cgi'
     require 'youtube_g'
   
-    writefolder = "#{RAILS_ROOT}/tmp/myfile_#{Process.pid}/"
+    writefolder = "#{RAILS_ROOT}/files"
   
     puts '************************'
     puts '********* [ song uploader ]'
@@ -64,8 +68,7 @@ class Track
     developer_key = 'AI39si7gdDFDhYlXhbkocUvVMlzcA7nQQTBGXfp7B8PRSXAT1DK4HJfikLNxt0FbMrmgwaYpsPjJTJNuTytBW-nCqAPnGF_5jA'
   
   
-  
-    url = 'http://skreemr.com/results.jsp?q='+track.split(' ').join('+')+'+'+artist.split(' ').join('+')
+    url = 'http://skreemr.com/results.jsp?q='+self.title.split(' ').join('+')+'+'+self.artist.title.split(' ').join('+')
   
     puts '********* [ contacting skreemr for the mp3s ]'
     puts '********* [ skreemr url: '+url+' ]'
@@ -74,6 +77,8 @@ class Track
     puts '********* [ scraping skreemr response ]'
     if page.index('soundFile').nil?
       puts '********* [ no file found, somehow alert us! ]'
+      self.errors = 'No file found on skreemr'
+      self.save
       return nil;
     end
       
@@ -90,7 +95,7 @@ class Track
 
     puts '********* [ download mp3 file locally ]'
 
-    @localsource = writefolder+track.split(' ').join('_')+'_'+artist.split(' ').join('_')+'.mp3'
+    @localsource = writefolder+self.title.split(' ').join('_')+'_'+self.artist.title.split(' ').join('_')+'.mp3'
 
     Net::HTTP.start(@source[7..-1].split('/').shift) { |http|
       resp = http.get(@source)
@@ -104,6 +109,8 @@ class Track
     
     
     if ! File.exist?(@localsource)
+      self.errors = "Error downloading the file"
+      self.save
       puts '********* [ error downloading file '+@localsource+', somehow alert us! ]'
       
       return nil;     
@@ -117,10 +124,9 @@ class Track
     duration = (d[0].to_i*60*60)+(d[1].to_i*60)+d[2].to_f
     
     puts '********* [ duration is '+duration.to_s+' ]'
-    puts track
-    puts artist
-    t = Track.first(:title=>track,:artist_id=>Artist.first(:title=>artist).id)
-    t.duration = duration
+    #t = Track.first(:title=>self.title,:artist_id=>Artist.first(:title=>artist).id)
+    self.youtubed = true
+    self.duration = duration
         
 
     file = ((rand*10000000000000)+10000000000000).round.to_s+'.mov'
@@ -143,7 +149,8 @@ class Track
     
     if ! File.exist?(@target)
       puts '********* [ error creating file via ffmpeg, somehow alert us! ]'
-      
+      self.errors = "Could not create file via ffmpeg"
+      self.save
       self.cleanup(@localsource,@target)
       return nil;     
     end
@@ -161,7 +168,7 @@ class Track
     #t = Track.find(:first, :conditions => "title='"+track+"' AND artist_id=(SELECT id FROM artists WHERE title='"+artist+"') ")
 
     
-    t.file = youtube_url
+    self.file = youtube_url
         
     #puts '********* [ open up new youtube client ]'
 		#client = YouTubeG::Client.new
@@ -173,7 +180,7 @@ class Track
     #t.duration = @media.duration
     #t.file = @media.media_content[0].url.split('/').pop.split('?').shift
 
-    t.save()
+    self.save
     
     puts '******* [ all done! ]'
   

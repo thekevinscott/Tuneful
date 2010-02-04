@@ -1,15 +1,18 @@
 class StationsController < ApplicationController
-  #before_filter :require_user
+  before_filter :require_user
 
   require 'rubygems'  
   require 'youtube_g'
   
 
   def require_user
-    redirect_to('/login')
-    #  unless session[:user_id].blank?
-    #    @logged_user = User.find(session[:user_id])
-    #  end
+    
+    if session[:logged_in]
+      @user = User.find_by_name(session[:name])
+      puts 'were logged in'
+    else
+      redirect_to('/login')      
+    end
 
     #rescue ActiveRecord::RecordNotFound
   end
@@ -46,15 +49,15 @@ class StationsController < ApplicationController
       track.save();
       @station.tracks.push(track)
       @error = 0
-      puts '*****************'
-      puts '***** wes gonna spawn a process'
+      #puts '*****************'
+      #puts '***** wes gonna spawn a process'
       #spawn do # SPAWN DOES NOT WORK WITH MONGO
-        puts '*****************'
-        puts '***** spawn a process!'
-        track.upload(params[:track],params[:artist])
+        #puts '*****************'
+        #puts '***** spawn a process!'
+        #track.upload(params[:track],params[:artist])
       #end
-      puts '*****************'
-      puts '***** wes done spawned a process'
+      #puts '*****************'
+      #puts '***** wes done spawned a process'
     end
     # if we pass in parameters then we do one thing; otherwise the other
     respond_to do |format|
@@ -68,6 +71,13 @@ class StationsController < ApplicationController
     
     @stations = Station.all
     @playlist = Station.first.get_playlist
+    
+    @greeting = ['Hiya','Hola','Hey there','Ahoy','Sup','Yo'].rand
+    
+    if @user.notifications.length > 0
+      @notif = @user.notifications.first
+    end
+    
     respond_to do |format|
       format.html # index.html.erb
       format.xml  { render :xml => @stations }

@@ -91,9 +91,9 @@ textarea {
 
 #banner {
 	height: 40px;
-	background: #999;
+	background: #C3D5DF;
 	padding: 8px 14px;
-	border-bottom:2px groove #BBBBBB;
+	border-bottom: 1px solid #8FAEBF;
 }
 
 #notif {
@@ -101,6 +101,8 @@ textarea {
 	text-align: center;
 	padding: 8px 0;
 	color: #666666;
+	border-top: 1px solid white;
+	border-bottom: 1px solid #DEDF99;
 }
 #notif img {
 	margin-right: 10px;
@@ -531,6 +533,7 @@ overflow: hidden;
 #the-floating-log .invite-codes {
 	width: 600px;
 	margin: 30px auto;
+	height: 80px;
 }
 #the-floating-log .invite-codes {
 	text-align: center;
@@ -552,3 +555,56 @@ overflow: hidden;
 	float: right;
 }
 #the-floating-log hr { color: #CBC2EF; background: #CBC2EF; height: 1px; border: none; line-height: 1px; }
+
+
+/*******
+*
+*	Invites
+*
+*******/
+
+#invites form {
+	line-height: 35px;
+}
+#invites #wrapper {
+	border: 1px solid #9999AF;
+	margin: 20px;
+	padding: 10px;
+}
+#invites #invite-collection input {
+	width: 80%;
+	padding: 5px 7px;
+	font-size: 120%;
+	border: 1px solid #999;
+	background: #EEE;
+	float: right;
+}
+#invites #invite-collection input.error {
+	background: #FFE2BF;
+	color: #3F0000;
+	border: 1px solid red;
+}
+
+#invites #invite-collection input.works {
+	background: #D1EFD2;
+	border: 1px solid #043F06;
+}
+#invites #submit {
+	float: right;
+	margin-right: 20px;
+}
+#invites .an-invite {
+	margin-bottom: 10px;
+}
+#invites .an-invite .error-msg {
+	display: none;
+	font-size: 80%;
+	color: red;
+	clear: both;
+	text-align: right;
+	margin-right: 20px;
+}
+#invites #add-more {
+	font-size: 80%;
+	color: #666666;
+}

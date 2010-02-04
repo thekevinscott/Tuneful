@@ -15,21 +15,23 @@
   <%= javascript_include_tag 'jquery.fancybox-1.2.6.pack' %>
   <%= javascript_include_tag 'jquery.scroller' %>
   <%= javascript_include_tag 'tuneful' %>
-  <%= javascript_include_tag 'user' %>
+  <%= javascript_include_tag 'users/user' %>
   <%= javascript_include_tag 'station' %>
   <%= javascript_include_tag 'radio' %>
 </head>
 <body>
+
 <div id="banner">
 	<div class="right">
-		(3 invites left) Logout
+		<%=@greeting %>, <%=@user.name%>! <a href="/invites" class="lightbox">(<span class="invite_num"><%=@user.invites_left%></span> invites left)</a> <a href="/logout">Logout</a>
 	</div>
 	<div id="logo">Tuneful</div>
 	 <%= render :partial => "radio", :station => @station %>
 
 </div>
-
-	<div id="notif"><a href="#"><img src="images/cancel.png" alt="Cancel"></a><a href="#">You have three invites left</a></div>
+	<% if !@notif.nil? %>
+	<div id="notif"><a href="#"><img src="images/cancel.png" alt="Cancel"></a><a href="/invites" class="lightbox">You have <span class="invite_num"><%=@user.invites_left%></span> invites left</a></div>
+	<% end %>
 	<div id="tuneful">
 		<%= @media_url %>
 		<div id="search">
